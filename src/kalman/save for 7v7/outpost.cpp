@@ -51,8 +51,8 @@ void OutpostV2::push(const Eigen::Matrix<double, 4, 1>& pose, TimePoint t) {
     model_.update(funcH_, pose);
     model_.estimate_X[7] = (omega_.getAvg() > 0) ? OUTPOST_OMEGA_V2 : -OUTPOST_OMEGA_V2;
 
-    rm::message("antitop count", (int)update_num_);
-    rm::message("antitop toggle", toggle_);
+    // rm::message("antitop count", (int)update_num_);
+    // rm::message("antitop toggle", toggle_);
 }
 
 Eigen::Matrix<double, 4, 1> OutpostV2::getPose(double append_delay) {

@@ -156,18 +156,18 @@ Eigen::Matrix<double, 4, 1> RuneV2::getPose(double append_delay) {
     
     double center_dist = sqrt(pow(x_center, 2) + pow(y_center, 2) + pow(z_center, 2));
 
-    rm::message("rune center", center_dist);
-    rm::message("rune cx", x_center);
-    rm::message("rune cy", y_center);
-    rm::message("rune cz", z_center);
-    rm::message("rune spd", spd);
-    rm::message("rune theta", theta * 180 / M_PI);
-    rm::message("rune angle", angle * 180 / M_PI);
+    // rm::message("rune center", center_dist);
+    // rm::message("rune cx", x_center);
+    // rm::message("rune cy", y_center);
+    // rm::message("rune cz", z_center);
+    // rm::message("rune spd", spd);
+    // rm::message("rune theta", theta * 180 / M_PI);
+    // rm::message("rune angle", angle * 180 / M_PI);
 
     if (is_big_rune_) {
-        rm::message("rune w", w);
-        rm::message("rune a", a);
-        rm::message("rune p", p);
+        // rm::message("rune w", w);
+        // rm::message("rune a", a);
+        // rm::message("rune p", p);
     }
 
     Eigen::Matrix<double, 4, 1> pose(x, y, z, angle);
