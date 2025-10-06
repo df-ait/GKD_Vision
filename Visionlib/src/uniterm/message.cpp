@@ -1,157 +1,147 @@
-#include "uniterm/uniterm.h"
-#include <map>
+#include "uniterm.h"
 #include <iostream>
-#include <vector>
-#include <structure/shm.hpp>
+#include <iomanip>
+#include <sstream>
+#include <chrono>
+#include <string>
+#include <opencv2/opencv.hpp>
 
-std::string rm::NumMsgShmKey = "KeyNum_";
-std::string rm::StrMsgShmKey = "KeyStr_";
-std::string rm::ImgMsgShmKey = "KeyImg_";
+// ANSI颜色代码
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m" 
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define WHITE   "\033[37m"
+#define BOLD    "\033[1m"
 
-size_t rm::NumShmLen = 64ull;
-size_t rm::StrShmLen = 32ull;
-size_t rm::ImgShmLen = 16ull;
+namespace rm {
 
-static rm::MsgNum* shm_num;
-static rm::MsgStr* shm_str;
-static rm::MsgImg* shm_img;
-
-static std::map<std::string, rm::MsgNum> MsgMap;
-static std::vector<rm::MsgStr> StrVec(rm::StrShmLen);
-static std::vector<rm::MsgImg> ImgVec(rm::ImgShmLen);
-
-static int StrIndex = 0;
-static int ImgIndex = 0;
-
-void rm::message_init(const std::string& unique_name) {
-    NumMsgShmKey += unique_name;
-    StrMsgShmKey += unique_name;
-    ImgMsgShmKey += unique_name;
-    shm_num = SharedMemory<MsgNum>(NumMsgShmKey, NumShmLen);
-    shm_str = SharedMemory<MsgStr>(StrMsgShmKey, StrShmLen);
-    shm_img = SharedMemory<MsgImg>(ImgMsgShmKey, ImgShmLen);
-    memset(shm_num, 0, sizeof(MsgNum) * NumShmLen);
-    memset(shm_str, 0, sizeof(MsgStr) * StrShmLen);
-    memset(shm_img, 0, sizeof(MsgImg) * ImgShmLen);
-}
-void rm::message(const std::string& name, int mi) {
-    MsgNum msg;
-    msg.num.i = mi;
-    msg.type = 'i';
-    message(name, msg);
-}
-void rm::message(const std::string& name, float mf) {
-    MsgNum msg;
-    msg.num.f = mf;
-    msg.type = 'f';
-    message(name, msg);  
-}
-void rm::message(const std::string& name, double md) {
-    MsgNum msg;
-    msg.num.d = md;
-    msg.type = 'd';
-    message(name, msg);
-}
-void rm::message(const std::string& name, char mc) {
-    MsgNum msg;
-    msg.num.c = mc;
-    msg.type = 'c';
-    message(name, msg);
-}
-void rm::message(const std::string& name, MsgNum msg) {
-    size_t length = name.length();
-    size_t copy_length = std::min(length, static_cast<size_t>(14));
-
-    std::copy(name.begin(), name.begin() + copy_length, msg.name);
-    msg.name[copy_length] = '\0';
-
-    MsgMap[name] = msg;
-}
-
-void rm::message(const std::string& mstr, MSG type) {
-    MsgStr msg;
-    msg.type = static_cast<char>(type);
-    if (type == rm::MSG_ERROR) std::cerr << mstr << std::endl;
-    else std::cout << mstr << std::endl;
+// 辅助函数：获取当前时间
+static std::string getCurrentTime() {
+    auto now = std::chrono::system_clock::now();
+    auto time_t = std::chrono::system_clock::to_time_t(now);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()) % 1000;
     
-    size_t length = mstr.length();
-    size_t copy_length = std::min(length, static_cast<size_t>(62));
-
-    std::copy(mstr.begin(), mstr.begin() + copy_length, msg.str);
-    msg.str[copy_length] = '\0';
-
-    StrIndex %= StrShmLen;
-    StrVec[StrIndex++] = msg;
-    StrVec[StrIndex] = MsgStr();
+    std::ostringstream oss;
+    oss << std::put_time(std::localtime(&time_t), "%H:%M:%S");
+    oss << '.' << std::setfill('0') << std::setw(3) << ms.count();
+    return oss.str();
 }
 
-void rm::message(const std::string& info, int img_width, int img_height, cv::Rect rect) {
-    MsgImg msg;
-    size_t length = info.length();
-    size_t copy_length = std::min(length, static_cast<size_t>(30));
+// 全局变量声明
+std::string NumMsgShmKey = "";
+std::string StrMsgShmKey = "";
+std::string ImgMsgShmKey = "";
 
-    std::copy(info.begin(), info.begin() + copy_length, msg.str);
-    msg.str[copy_length] = '\0';
+size_t NumShmLen = 0;
+size_t StrShmLen = 0;
+size_t ImgShmLen = 0;
 
-    msg.type[0] = 'r';
-
-    msg.rect[0] = (float)rect.y / (float)img_height;
-    msg.rect[1] = (float)(rect.y + rect.height) / (float)img_height;
-    msg.rect[2] = (float)rect.x / (float)img_width;
-    msg.rect[3] = (float)(rect.x + rect.width) / (float)img_width;
-
-    ImgVec[ImgIndex++] = msg;
+// 美观的日志输出函数
+void message(const std::string& name, int msg) {
+    std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+              << "[PARAM] " << GREEN << std::setw(25) << std::left << name 
+              << RESET << ": " << WHITE << msg << RESET << std::endl;
 }
 
-void rm::message(const std::string& info, int img_width, int img_height, std::vector<cv::Point2f> four_points) {
-    MsgImg msg;
-    size_t length = info.length();
-    size_t copy_length = std::min(length, static_cast<size_t>(30));
-
-    std::copy(info.begin(), info.begin() + copy_length, msg.str);
-    msg.str[copy_length] = '\0';
-
-    msg.type[0] = 'p';
-    if (four_points.size() < 4) return;
-
-    for (size_t i = 0; i < 4; i++) {
-        msg.rect[i * 2] = four_points[i].x / img_width;
-        msg.rect[i * 2 + 1] = four_points[i].y / img_height;
-    }
-
-    ImgVec[ImgIndex++] = msg;
+void message(const std::string& name, float msg) {
+    std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+              << "[PARAM] " << GREEN << std::setw(25) << std::left << name 
+              << RESET << ": " << WHITE << std::fixed << std::setprecision(3) << msg << RESET << std::endl;
 }
 
-void rm::message(const std::string& info, int img_width, int img_height, cv::Point2f pointX) {
-    MsgImg msg;
-    size_t length = info.length();
-    size_t copy_length = std::min(length, static_cast<size_t>(30));
-
-    std::copy(info.begin(), info.begin() + copy_length, msg.str);
-    msg.str[copy_length] = '\0';
-
-    msg.type[0] = 'x';
-    msg.rect[0] = pointX.x / img_width;
-    msg.rect[1] = pointX.y / img_height;
-
-    ImgVec[ImgIndex++] = msg;
+void message(const std::string& name, double msg) {
+    std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+              << "[PARAM] " << GREEN << std::setw(25) << std::left << name 
+              << RESET << ": " << WHITE << std::fixed << std::setprecision(3) << msg << RESET << std::endl;
 }
 
-void rm::message_send() {
-    size_t index = 0ull;
-    for (const auto& msgpair : MsgMap) {
-        if(index >= NumShmLen) break;
-        shm_num[index++] = msgpair.second;
-    }
+void message(const std::string& name, char msg) {
+    std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+              << "[PARAM] " << GREEN << std::setw(25) << std::left << name 
+              << RESET << ": " << WHITE << msg << RESET << std::endl;
+}
 
-    for (size_t i = 0; i < StrShmLen; i++) {
-        index = (StrShmLen + StrIndex - i - 1) % StrShmLen;
-        shm_str[i] = StrVec[index];
-    }
+void message(const std::string& name, MsgNum msg) {
+    std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+              << "[PARAM] " << GREEN << std::setw(25) << std::left << name 
+              << RESET << ": " << WHITE << "MsgNum struct" << RESET << std::endl;
+}
 
-    memset(shm_img, 0, sizeof(MsgImg) * ImgShmLen);
-    for (int i = 0; i < ImgIndex; i++) {
-        shm_img[i] = ImgVec[i];
+void message(const std::string& msg, MSG type) {
+    std::string time_str = getCurrentTime();
+    std::string type_str;
+    std::string color;
+    
+    switch(type) {
+        case MSG_ERROR: 
+            type_str = "ERROR"; 
+            color = RED; 
+            break;
+        case MSG_WARNING: 
+            type_str = "WARN "; 
+            color = YELLOW; 
+            break;
+        case MSG_OK: 
+            type_str = "OK   "; 
+            color = GREEN; 
+            break;
+        default: 
+            type_str = "INFO "; 
+            color = WHITE; 
+            break;
     }
-    ImgIndex = 0;
+    
+    std::cout << "[" << CYAN << time_str << RESET << "] " 
+              << "[" << color << type_str << RESET << "] " 
+              << WHITE << msg << RESET << std::endl;
+}
+
+void message(const std::string& info, int img_width, int img_height, cv::Rect rect) {
+    std::string time_str = getCurrentTime();
+    std::cout << "[" << CYAN << time_str << RESET << "] " 
+              << "[IMAGE] " << GREEN << info 
+              << RESET << " at (" << rect.x << "," << rect.y 
+              << ") size(" << rect.width << "x" << rect.height << ")" << RESET << std::endl;
+}
+
+void message(const std::string& info, int img_width, int img_height, std::vector<cv::Point2f> four_points) {
+    std::string time_str = getCurrentTime();
+    std::cout << "[" << CYAN << time_str << RESET << "] " 
+              << "[FOURPT] " << MAGENTA << info 
+              << RESET << " - 4 points at [";
+    for(size_t i = 0; i < four_points.size(); i++) {
+        std::cout << "(" << four_points[i].x << "," << four_points[i].y << ")";
+        if(i < four_points.size() - 1) std::cout << ", ";
+    }
+    std::cout << "]" << RESET << std::endl;
+}
+
+void message(const std::string& info, int img_width, int img_height, cv::Point2f pointX) {
+    std::string time_str = getCurrentTime();
+    std::cout << "[" << CYAN << time_str << RESET << "] " 
+              << "[POINT] " << BLUE << info 
+              << RESET << " at (" << pointX.x << "," << pointX.y << ")" << RESET << std::endl;
+}
+
+void message_init(const std::string& unique_name) {
+    // 初始化日志系统，实际项目中可能不需要特殊处理
+    // 可以输出一条初始化信息
+    std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+              << "[INFO] " << WHITE << "Log system initialized with name: " << unique_name << RESET << std::endl;
+}
+
+void message_send() {
+    // 在美观日志系统中，每次message调用都会立即输出，所以不需要专门的send
+    // 可以输出同步信息
+    // std::cout << "[" << CYAN << getCurrentTime() << RESET << "] " 
+    //           << "[INFO] " << WHITE << "Messages synchronized" << RESET << std::endl;
+}
+
+
+
 }

@@ -61,14 +61,10 @@ void message(const std::string& info, int img_width, int img_height, cv::Point2f
 void message_init(const std::string& unique_name);
 void message_send();
 
-int term_hash(const char*);
-void term_init();
 
-void dashboard(std::vector<std::string>& key_name);
-void oscilloscope(const std::vector<std::string>& key_name, const std::vector<std::string>& msg_name);
-void monitor(std::vector<std::string>& key_name);
+
+
 
 }
-
 
 #endif
