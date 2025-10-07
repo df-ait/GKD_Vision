@@ -18,12 +18,10 @@ public:
 public:
     rm::TrackQueueV3 track_queue_;
 
-    #if defined(TJURM_INFANTRY) || defined(TJURM_BALANCE) || defined(TJURM_HERO) || defined(TJURM_SENTRY)
-    rm::OutpostV1 outpost_;
-    #endif
-
     #if defined(TJURM_DRONSE)
     rm::OutpostV2 outpost_;
+    #else
+    rm::OutpostV1 outpost_;
     #endif
 
 };

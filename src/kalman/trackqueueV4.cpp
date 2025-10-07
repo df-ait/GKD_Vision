@@ -142,7 +142,7 @@ void TrackQueueV4::getStateStr(std::vector<std::string>& str) {
 Eigen::Matrix<double, 4, 1> TrackQueueV4::getPose(double append_delay) {
     std::unique_lock<std::mutex> lock(mtx_);
     
-    // return Eigen::Matrix<double, 4, 1>(pose_latest[0], pose_latest[1], pose_latest[2], pose_latest[3]);
+    // return pose_latest;
     TQstateV4* state = nullptr;
     if(last_state_ != nullptr) {
         double dt = getDoubleOfS(last_state_->last_t, getTime());
