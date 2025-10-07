@@ -35,6 +35,6 @@
 #include <utils/serial.h>
 #include <utils/print.h>
 #include <video/hikdriver.h>
-
+#include "timer/timer.hpp"
 
 #endif
