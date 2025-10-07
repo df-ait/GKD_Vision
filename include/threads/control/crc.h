@@ -1,5 +1,5 @@
-#ifndef RM2024_THREADS_SERIAL_CRC_H_
-#define RM2024_THREADS_SERIAL_CRC_H_
+#ifndef RM2026_THREADS_SERIAL_CRC_H_
+#define RM2026_THREADS_SERIAL_CRC_H_
 
 // Robomaster 官方提供的代码
 

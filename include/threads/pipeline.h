@@ -1,5 +1,5 @@
-#ifndef RM2024_THREADS_PIPELINE_H_
-#define RM2024_THREADS_PIPELINE_H_
+#ifndef RM2026_THREADS_PIPELINE_H_
+#define RM2026_THREADS_PIPELINE_H_
 
 #include <mutex>
 #include <memory>

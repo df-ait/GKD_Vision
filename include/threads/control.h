@@ -1,5 +1,5 @@
-#ifndef RM2024_THREADS_SERIAL_H_
-#define RM2024_THREADS_SERIAL_H_
+#ifndef RM2026_THREADS_SERIAL_H_
+#define RM2026_THREADS_SERIAL_H_
 #include <mutex>
 #include <cstdint>
 #include <condition_variable>

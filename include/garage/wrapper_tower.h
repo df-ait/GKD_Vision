@@ -1,5 +1,5 @@
-#ifndef RM2024_GARAGE_WRAPPER_TOWER_H_
-#define RM2024_GARAGE_WRAPPER_TOWER_H_
+#ifndef RM2026_GARAGE_WRAPPER_TOWER_H_
+#define RM2026_GARAGE_WRAPPER_TOWER_H_
 
 #include "garage/interface.h"
 

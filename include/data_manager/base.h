@@ -1,5 +1,5 @@
-#ifndef RM2024_DATA_MANAGER_BASE_H_
-#define RM2024_DATA_MANAGER_BASE_H_
+#ifndef RM2026_DATA_MANAGER_BASE_H_
+#define RM2026_DATA_MANAGER_BASE_H_
 
 #include <opencv2/opencv.hpp>
 #include <visionLib.h>
