@@ -34,7 +34,7 @@ using namespace rm;
 //         tp0 = getTime();
 //         while(!flag_in) {
 //             if (getDoubleOfS(tp0, getTime()) > 10.0 && Data::timeout_flag) {
-//                 rm::message("Detector timeout", rm::MSG_ERROR);
+//                 // rm::message("Detector timeout", rm::MSG_ERROR);
 //                 exit(-1);
 //             }
 //         }
@@ -72,7 +72,7 @@ using namespace rm;
 //         }
 
 //         tp2 = getTime();
-//         if (Data::pipeline_delay_flag) rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
+//         if (Data::pipeline_delay_flag) // rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
 
 //         std::unique_lock<std::mutex> lock_out(mutex_out);
 //         frame_out = frame;

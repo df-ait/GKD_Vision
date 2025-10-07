@@ -61,22 +61,22 @@ static void init_send() {
 }
 
 void Control::message() {
-    rm::message_send();
-    rm::message("system state", Data::state);
-    rm::message("system yaw", get_yaw());
-    rm::message("system pit", get_pitch());
-    rm::message("system rol", get_roll());
-    rm::message("system omg", get_yaw_omega());
-    rm::message("target id", Data::target_id);
-    rm::message("target yaw", target_yaw);
-    rm::message("target pit", target_pitch);
-    rm::message("target -x-", pose(0, 0));
-    rm::message("target -y-", pose(1, 0));
-    rm::message("target -z-", pose(2, 0));
-    rm::message("target -0-", pose(3, 0) * 180 / M_PI);
-    rm::message("target fire", fire);
-    rm::message("enemy color", Data::enemy_color);
-    rm::message("camera id", Data::camera_index);
+    // rm::message_send();
+    // rm::message("system state", Data::state);
+    // rm::message("system yaw", get_yaw());
+    // rm::message("system pit", get_pitch());
+    // rm::message("system rol", get_roll());
+    // rm::message("system omg", get_yaw_omega());
+    // rm::message("target id", Data::target_id);
+    // rm::message("target yaw", target_yaw);
+    // rm::message("target pit", target_pitch);
+    // rm::message("target -x-", pose(0, 0));
+    // rm::message("target -y-", pose(1, 0));
+    // rm::message("target -z-", pose(2, 0));
+    // rm::message("target -0-", pose(3, 0) * 180 / M_PI);
+    // rm::message("target fire", fire);
+    // rm::message("enemy color", Data::enemy_color);
+    // rm::message("camera id", Data::camera_index);
 }
 
 void Control::state() {
@@ -111,18 +111,18 @@ void Control::state() {
     #ifdef TJURM_SENTRY
     if (Data::target_id != rm::ARMOR_ID_TOWER) {
         Data::camera_index = Data::camera_base;
-        rm::message("camera type", 'B');
+        // rm::message("camera type", 'B');
     } else if (Data::target_dist > base_to_far_dist) {
         Data::camera_index = Data::camera_far;
-        rm::message("camera type", 'F');
+        // rm::message("camera type", 'F');
     } else if (Data::target_dist < far_to_base_dist) {
         Data::camera_index = Data::camera_base;
-        rm::message("camera type", 'B');
+        // rm::message("camera type", 'B');
     }
     #endif
 
     #ifdef TJURM_SENTRY
-    rm::message("shoot config", (int)get_shoot_config());
+    // rm::message("shoot config", (int)get_shoot_config());
     Data::attack->setValidID(get_shoot_config());
     #endif
 
@@ -167,7 +167,7 @@ void Control::shootspeed() {
     shoot_speed = avg_speed;
     operate_bytes_.output_data.food = 0x01;
 
-    rm::message("shoot speed", avg_speed);
+    // rm::message("shoot speed", avg_speed);
 
     #endif
 }
@@ -262,7 +262,7 @@ void Control::send_thread() {
             continue;
         }
 
-        rm::message("target pitch b", target_pitch);
+        // rm::message("target pitch b", target_pitch);
         Data::target_dist = sqrt(pow(pose(0, 0), 2) + pow(pose(1, 0), 2) + pow(pose(2, 0), 2));
         
         // 如果返回坐标为0, 确定控制信号

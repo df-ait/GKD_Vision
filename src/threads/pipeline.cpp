@@ -5,7 +5,7 @@ void Pipeline::autoaim_fourpoints() {
     // bool cuda_status = rm::initCudaStream(&this->detect_stream_);
     // cuda_status = rm::initCudaStream(&this->resize_stream_);
     // if (!cuda_status) {
-    //     rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
+    //     // rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
     //     exit(-1);
     // }
 
@@ -43,7 +43,7 @@ void Pipeline::autoaim_baseline() {
     // bool cuda_status = rm::initCudaStream(&this->detect_stream_);
     // cuda_status = rm::initCudaStream(&this->resize_stream_);
     // if (!cuda_status) {
-    //     rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
+    //     // rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
     //     exit(-1);
     // }
 
@@ -87,7 +87,7 @@ void Pipeline::autoaim_rune() {
     // bool cuda_status = rm::initCudaStream(&this->detect_stream_);
     // cuda_status = rm::initCudaStream(&this->resize_stream_);
     // if (!cuda_status) {
-    //     rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
+    //     // rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
     //     exit(-1);
     // }
 
@@ -131,7 +131,7 @@ void Pipeline::autoaim_combine() {
     // bool cuda_status = rm::initCudaStream(&this->detect_stream_);
     // cuda_status = rm::initCudaStream(&this->resize_stream_);
     // if (!cuda_status) {
-    //     rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
+    //     // rm::message("Failed to initialize CUDA stream", rm::MSG_ERROR);
     //     exit(-1);
     // }
 

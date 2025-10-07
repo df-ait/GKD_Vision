@@ -11,7 +11,7 @@ bool rm::isRatioRectSideValid(const Lightbar& lightbar, double min, double max) 
     double ratio = getRatioRectSide(lightbar.rect);
     if (ratio < min || ratio > max) {
         #ifdef POINTER_IO
-        rm::message("lb rect side ratio: " + to_string(ratio), rm::MSG_NOTE);
+        // rm::message("lb rect side ratio: " + to_string(ratio), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -22,7 +22,7 @@ bool rm::isValueRectAreaValid(const Lightbar& lightbar, double min) {
     double area = lightbar.rect.size.area();
     if (area < min) {
         #ifdef POINTER_IO
-        rm::message("lb rect area: " + to_string(area), rm::MSG_NOTE);
+        // rm::message("lb rect area: " + to_string(area), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -33,7 +33,7 @@ bool rm::isRatioRectAreaValid(const Lightbar& lightbar, double min) {
     double ratio = getRatioAreaContourToRect(lightbar.contour, lightbar.rect);
     if (ratio < min) {
         #ifdef POINTER_IO
-        rm::message("lb rect area ratio: " + to_string(ratio), rm::MSG_NOTE);
+        // rm::message("lb rect area ratio: " + to_string(ratio), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -44,8 +44,8 @@ bool rm::isValueAngleValid(const Lightbar& lightbar, double max) {
     double angle = getLightbarAngleRectCV45(lightbar.rect);
     if (abs(angle) > max) {
         #ifdef POINTER_IO
-        // rm::message("lb rect: " + to_string(lightbar.rect.angle) + " " + to_string(lightbar.rect.size.width) +  " " + to_string(lightbar.rect.size.height), rm::MSG_NOTE);
-        rm::message("lb angle: " + to_string(angle), rm::MSG_NOTE);
+        // // rm::message("lb rect: " + to_string(lightbar.rect.angle) + " " + to_string(lightbar.rect.size.width) +  " " + to_string(lightbar.rect.size.height), rm::MSG_NOTE);
+        // rm::message("lb angle: " + to_string(angle), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -73,7 +73,7 @@ bool rm::isRatioLengthLightbarPairValid(const Lightbar& lb1, const Lightbar& lb2
     double ratio = getRatioLengthLightbarPair(lb1, lb2);
     if (ratio > max) {
         #ifdef POINTER_IO
-        rm::message("lb pair ratio length: " + to_string(ratio), rm::MSG_NOTE);
+        // rm::message("lb pair ratio length: " + to_string(ratio), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -84,7 +84,7 @@ bool rm::isRatioAreaLightbarPairValid(const Lightbar& lb1, const Lightbar& lb2, 
     double ratio = getRatioAreaLightbarPair(lb1, lb2);
     if (ratio > max) {
         #ifdef POINTER_IO
-        rm::message("lb pair ratio area: " + to_string(ratio), rm::MSG_NOTE);
+        // rm::message("lb pair ratio area: " + to_string(ratio), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -95,7 +95,7 @@ bool rm::isRatioArmorSideValid(const Lightbar& lb1, const Lightbar& lb2, double 
     double ratio = getRatioArmorSide(lb1, lb2);
     if (ratio < min || ratio > max) {
         #ifdef POINTER_IO
-        rm::message("lb pair ratio side: " + to_string(ratio), rm::MSG_NOTE);
+        // rm::message("lb pair ratio side: " + to_string(ratio), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -106,7 +106,7 @@ bool rm::isAngleDiffLightbarPairValid(const Lightbar& lb1, const Lightbar& lb2, 
     double angle = getAngleDiffLightbarPair(lb1, lb2);
     if (angle > max) {
         #ifdef POINTER_IO
-        rm::message("lb pair angle diff: " + to_string(angle), rm::MSG_NOTE);
+        // rm::message("lb pair angle diff: " + to_string(angle), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -117,7 +117,7 @@ bool rm::isAngleAvgLightbarPairValid(const Lightbar& lb1, const Lightbar& lb2, d
     double angle = getAngleAvgLightbarPair(lb1, lb2);
     if(abs(angle) > max) {
         #ifdef POINTER_IO
-        rm::message("lb pair angle avg: " + to_string(angle), rm::MSG_NOTE);
+        // rm::message("lb pair angle avg: " + to_string(angle), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -130,7 +130,7 @@ bool rm::isCenterOffsetLightbarPairValid(const Lightbar& lb1, const Lightbar& lb
     double ratio = offset / avg_len;
     if (ratio > max) {
         #ifdef POINTER_IO
-        rm::message("lb pair center offset: " + to_string(ratio), rm::MSG_NOTE);
+        // rm::message("lb pair center offset: " + to_string(ratio), rm::MSG_NOTE);
         #endif
         return false;
     }
@@ -220,7 +220,7 @@ bool rm::isArmorColorEnemy(const cv::Mat& input,  const rm::LightbarPair &lbp, r
     cv::Scalar mean_right = cv::mean(gray(rect_right));
     int threshold_total = 0.5 * (int)mean_left.val[0] + 0.5 * (int)mean_right.val[0];
 
-    rm::message("split avg", threshold_total);
+    // rm::message("split avg", threshold_total);
 
     if(threshold_total > threshold) return true;
     return false;

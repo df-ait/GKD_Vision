@@ -159,7 +159,7 @@ void rm::setArmorSizeByPoints(Armor& armor, double ratio) {
     double width = cv::norm(armor.four_points[0] - armor.four_points[1]) + cv::norm(armor.four_points[2] - armor.four_points[3]);
     double height = cv::norm(armor.four_points[0] - armor.four_points[2]) + cv::norm(armor.four_points[1] - armor.four_points[3]);
     double armor_ratio = width / height;
-    rm::message("armor ratio", armor_ratio);
+    // rm::message("armor ratio", armor_ratio);
     if (armor_ratio > ratio) {
         armor.size = ARMOR_SIZE_BIG_ARMOR;
     } else {

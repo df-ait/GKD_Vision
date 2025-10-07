@@ -34,7 +34,7 @@ SerialStatus rm::getSerialPortList(std::vector<std::string>& port_list, SerialTy
     // 测试串口是否存在
     int exitCode = std::system(cmd.c_str());
     if (exitCode != 0) {
-        rm::message("Serial port not found", rm::MSG_ERROR);
+        // rm::message("Serial port not found", rm::MSG_ERROR);
         return SERIAL_STATUS_NOT_FOUND;
     }
 
@@ -42,7 +42,7 @@ SerialStatus rm::getSerialPortList(std::vector<std::string>& port_list, SerialTy
     std::string command_output;
     FILE* pipe = popen(cmd.c_str(), "r");
     if (!pipe) {
-        rm::message("Serial port popen failed", rm::MSG_ERROR);
+        // rm::message("Serial port popen failed", rm::MSG_ERROR);
         return SERIAL_STATUS_NOT_FOUND;
     }
 
@@ -64,7 +64,7 @@ SerialStatus rm::getSerialPortList(std::vector<std::string>& port_list, SerialTy
         port_list.push_back(line);
     }
 
-    rm::message("Serial port found", rm::MSG_OK);
+    // rm::message("Serial port found", rm::MSG_OK);
     return SERIAL_STATUS_OK;
 }
 
@@ -80,20 +80,20 @@ SerialStatus rm::openSerialPort(
     // string chmod_cmd = "chmod 777 " + name;
     // int exitCode = std::system(chmod_cmd.c_str());
     // if (exitCode != 0) {
-    //     rm::message("Serial port chmod failed", rm::MSG_ERROR);
+    //     // rm::message("Serial port chmod failed", rm::MSG_ERROR);
     //     return SERIAL_STATUS_CHMOD_FAILED;
     // }
 
     // 获取串口文件描述符
     file_descriptor = open(name.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
     if (file_descriptor == -1) {
-        rm::message("Serial port open failed", rm::MSG_ERROR);
+        // rm::message("Serial port open failed", rm::MSG_ERROR);
         return SERIAL_STATUS_OPEN_FAILED;
     }
 
     // 配置串口文件描述符
     if (fcntl(file_descriptor, F_SETFL, 0) < 0) {
-        rm::message("Serial port set file status failed", rm::MSG_ERROR);
+        // rm::message("Serial port set file status failed", rm::MSG_ERROR);
         return SERIAL_STATUS_SET_FILE_STATUS_FAILED;
     }
     
@@ -174,7 +174,7 @@ SerialStatus rm::openSerialPort(
     
     // 重新激活
     if ((tcsetattr(file_descriptor, TCSANOW, &newtio)) != 0) {
-        rm::message("Serial port set newtio failed", rm::MSG_ERROR);
+        // rm::message("Serial port set newtio failed", rm::MSG_ERROR);
         return SERIAL_STATUS_SET_NEWTIO_FAILED;
     }
 
@@ -183,7 +183,7 @@ SerialStatus rm::openSerialPort(
 
 SerialStatus rm::closeSerialPort(int file_descriptor) {
     close(file_descriptor);
-    rm::message("Serial port closed", rm::MSG_WARNING);
+    // rm::message("Serial port closed", rm::MSG_WARNING);
     return SERIAL_STATUS_OK;
 }
 
@@ -196,23 +196,23 @@ SerialStatus rm::restartSerialPort(
     int stop_bit
 ) {
     int status;
-    rm::message("Serial port trying to restart", rm::MSG_WARNING);
+    // rm::message("Serial port trying to restart", rm::MSG_WARNING);
     while(1) {
         if (access(name.c_str(), F_OK) < 0) {
-            rm::message("Serial port restart failed : name error", rm::MSG_ERROR);
+            // rm::message("Serial port restart failed : name error", rm::MSG_ERROR);
             return SERIAL_STATUS_NAME_ERROR;
         }
         closeSerialPort(file_descriptor);
         status = (int)openSerialPort(file_descriptor, name, baudrate, parity_bit, data_bit, stop_bit);
         if(status == SERIAL_STATUS_OK) {
-            rm::message("Serial port restart success", rm::MSG_OK);
+            // rm::message("Serial port restart success", rm::MSG_OK);
             break;
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
         
     }
-    rm::message("Serial port restart success", rm::MSG_OK);
+    // rm::message("Serial port restart success", rm::MSG_OK);
     return SERIAL_STATUS_OK;
 }
 
@@ -228,7 +228,7 @@ SerialStatus rm::readFromSerialPort(
     int stop_bit
 ) {
     if(file_descriptor <= 0){
-        rm::message("Serial port read failed : invalid file descriptor", rm::MSG_ERROR);
+        // rm::message("Serial port read failed : invalid file descriptor", rm::MSG_ERROR);
        
         if(restart) {
             restartSerialPort(file_descriptor, name, baudrate, parity_bit, data_bit, stop_bit);
@@ -247,7 +247,7 @@ SerialStatus rm::readFromSerialPort(
         double delay = getDoubleOfS(tp0, tp1);
 
         if (curr < 0 || delay > 0.2) {
-            rm::message("Serial port read failed : read error", rm::MSG_ERROR);
+            // rm::message("Serial port read failed : read error", rm::MSG_ERROR);
             perror("read");
             if(restart) {
                 openSerialPort(file_descriptor, name, baudrate, parity_bit, data_bit, stop_bit);
@@ -278,7 +278,7 @@ SerialStatus rm::writeToSerialPort(
     int stop_bit
 ) {
     if(file_descriptor <= 0){
-        rm::message("Serial port write failed : invalid file descriptor", rm::MSG_ERROR);
+        // rm::message("Serial port write failed : invalid file descriptor", rm::MSG_ERROR);
         if(restart) {
             restartSerialPort(file_descriptor, name, baudrate, parity_bit, data_bit, stop_bit);
         } else {
@@ -295,7 +295,7 @@ SerialStatus rm::writeToSerialPort(
         double delay = getDoubleOfS(tp0, tp1);
 
         if (curr < 0 || delay > 0.2) {
-            rm::message("Serial port write failed : write error", rm::MSG_ERROR);
+            // rm::message("Serial port write failed : write error", rm::MSG_ERROR);
             if(restart) {
                 openSerialPort(file_descriptor, name, baudrate, parity_bit, data_bit, stop_bit);
                 continue;
@@ -318,7 +318,7 @@ SerialStatus rm::initSerialHead(int& file_descriptor, size_t struct_size, const 
     char header[2 * input_size];
 
     if (readFromSerialPort((unsigned char *)header, 2 * input_size, file_descriptor) != SERIAL_STATUS_OK) {
-        rm::message("Serial port head failed to find", rm::MSG_ERROR);
+        // rm::message("Serial port head failed to find", rm::MSG_ERROR);
         return SERIAL_STATUS_INIT_HEAD_FAILED;
     }
 
@@ -331,12 +331,12 @@ SerialStatus rm::initSerialHead(int& file_descriptor, size_t struct_size, const 
         }
     }
     if(!found) {
-        rm::message("Serial port init head failed : header not found", rm::MSG_ERROR);
+        // rm::message("Serial port init head failed : header not found", rm::MSG_ERROR);
         return SERIAL_STATUS_INIT_HEAD_FAILED;
     }
 
     if(readFromSerialPort((unsigned char *)header, start_index, file_descriptor) != SERIAL_STATUS_OK) {
-        rm::message("Serial port init head failed : read error while aheading", rm::MSG_ERROR);
+        // rm::message("Serial port init head failed : read error while aheading", rm::MSG_ERROR);
         return SERIAL_STATUS_INIT_HEAD_FAILED;
     }
     

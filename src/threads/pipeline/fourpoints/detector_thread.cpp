@@ -78,7 +78,7 @@ using namespace rm;
 //                 infer_height
 //             );
 //         } else {
-//             rm::message("Invalid yolo type", rm::MSG_ERROR);
+//             // rm::message("Invalid yolo type", rm::MSG_ERROR);
 //             exit(-1);
 //         }
         
@@ -93,10 +93,10 @@ using namespace rm;
 //         if (Data::imshow_flag) imshow(frame);
 
 //         tp2 = getTime();
-//         if (Data::pipeline_delay_flag) rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
+//         if (Data::pipeline_delay_flag) // rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
 //         delay_list.push(getDoubleOfS(tp0, tp2));
 //         tp0 = tp2;
 //         double fps = 1.0 / delay_list.getAvg();
-//         rm::message("detect fps", fps);
+//         // rm::message("detect fps", fps);
 //     }
 // }

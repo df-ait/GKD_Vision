@@ -111,15 +111,15 @@ void WrapperCar::update() {
 
         if (armor_size_count_ > 0) {
             antitop = antitop_2_;
-            rm::message("antitop armor", 2);
+            // rm::message("antitop armor", 2);
         }
         else {
             antitop = antitop_4_;
-            rm::message("antitop armor", 4);
+            // rm::message("antitop armor", 4);
         }
     } else {
         antitop = antitop_4_;
-        rm::message("antitop armor", 4);
+        // rm::message("antitop armor", 4);
     }
 
     // antitop->push(pose, t);
@@ -155,15 +155,15 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
 
         if (armor_size_count_ > 0) {
             antitop = antitop_2_;
-            rm::message("antitop armor", 2);
+            // rm::message("antitop armor", 2);
         }
         else {
             antitop = antitop_4_;
-            rm::message("antitop armor", 4);
+            // rm::message("antitop armor", 4);
         }
     } else {
         antitop = antitop_4_;
-        rm::message("antitop armor", 4);
+        // rm::message("antitop armor", 4);
     }
     Eigen::Vector4d pose_shoot = track_queue_.getPose(fly_delay + shoot_delay);
     pose_rotate_abs = track_queue_.getPose(fly_delay + rotate_delay);
@@ -180,7 +180,7 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
 
 
     Data::target_omega = antitop->getOmega();
-    rm::message("target omg", Data::target_omega);
+    // rm::message("target omg", Data::target_omega);
 
 
     if(abs(Data::target_omega) > track_to_antitop_) flag_antitop_ = true;
@@ -191,19 +191,19 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
 
     if (flag_antitop_) {
         if(flag_center_) {
-            rm::message("mode", 'C');
+            // rm::message("mode", 'C');
             pose_shoot = antitop->getCenter(fly_delay + shoot_delay);
             pose_rotate = antitop->getCenter(fly_delay + rotate_delay);
             return antitop->getFireCenter(pose_shoot);
         } else {
-            rm::message("mode", 'A');
+            // rm::message("mode", 'A');
             pose_shoot = antitop->getPose(fly_delay + shoot_delay);
             pose_rotate = antitop->getPose(fly_delay + rotate_delay);
 
             return antitop->getFireArmor(pose_shoot);
         }      
     } else {
-        rm::message("mode", 'T');
+        // rm::message("mode", 'T');
         return true;
     }
     

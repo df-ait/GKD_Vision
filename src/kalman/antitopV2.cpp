@@ -41,8 +41,8 @@ void AntitopV2::push(const Eigen::Matrix<double, 4, 1>& pose, TimePoint t) {
     z_[toggle_] = model_.estimate_X[2];
     r_[toggle_] = model_.estimate_X[8];
 
-    rm::message("antitop count", (int)update_num_);
-    rm::message("antitop toggle", toggle_);
+    // rm::message("antitop count", (int)update_num_);
+    // rm::message("antitop toggle", toggle_);
 }
 
 Eigen::Matrix<double, 4, 1> AntitopV2::getPose(double append_delay) {

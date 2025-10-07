@@ -62,8 +62,8 @@ void OutpostV1::push(const Eigen::Matrix<double, 4, 1>& pose, TimePoint t) {
 
     weighted_z_.push(pose[2], getWeightByTheta(pose[3]));
 
-    rm::message("antitop count", (int)update_num_);
-    rm::message("antitop toggle", toggle_);
+    // rm::message("antitop count", (int)update_num_);
+    // rm::message("antitop toggle", toggle_);
 }
 
 Eigen::Matrix<double, 4, 1> OutpostV1::getPose(double append_delay) {

@@ -55,7 +55,7 @@ void Pipeline::detector_baseline_thread(
         tp0 = getTime();
         // while(!flag_in) {
         //     if (getDoubleOfS(tp0, getTime()) > 10.0 && Data::timeout_flag) {
-        //         rm::message("Detector timeout", rm::MSG_ERROR);
+        //         // rm::message("Detector timeout", rm::MSG_ERROR);
         //         exit(-1);
         //     }
         // }
@@ -113,7 +113,7 @@ void Pipeline::detector_baseline_thread(
         //         infer_height
         //     );
         // } else {
-        //     rm::message("Invalid yolo type", rm::MSG_ERROR);
+        //     // rm::message("Invalid yolo type", rm::MSG_ERROR);
         //     exit(-1);
         // }
         
@@ -123,7 +123,7 @@ void Pipeline::detector_baseline_thread(
         // } 
 
         // tp2 = getTime();
-        // if (Data::pipeline_delay_flag) rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
+        // if (Data::pipeline_delay_flag) // rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
 
         //读取视频帧
         HIKframemtx.lock();

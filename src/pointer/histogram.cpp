@@ -198,7 +198,7 @@ int rm::getThresholdFromHist(const cv::Mat& src, cv::Mat& ShowImage, int Cut_thr
     }
     rm::setLine_Histogram(ShowImage, ShowImage, histogram, Cut_thresold, 0);
     rm::setLine_Histogram(ShowImage, ShowImage, histogram, final_thread, 1);
-    rm::message("final_thread: ", final_thread);
+    // rm::message("final_thread: ", final_thread);
     return final_thread;
 }
 
@@ -236,7 +236,7 @@ void rm::getHistogramEqualization(const cv::Mat& src, cv::Mat& dst) {
         dst = src.clone();
         std::string err_str = "Invalid input depth: " + std::to_string(src.depth()) 
                             + " channels: " + std::to_string(src.channels());
-        rm::message(err_str, rm::MSG_ERROR);
+        // rm::message(err_str, rm::MSG_ERROR);
         return;
     }
 

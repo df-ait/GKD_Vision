@@ -26,7 +26,7 @@ void Control::send_single(double yaw, double pitch, bool fire, rm::ArmorID id) {
     append_crc16_check_sum((uint8_t*)&operate_bytes_, sizeof(OperateBytes));
     int status = (int)rm::writeToSerialPort((uint8_t*)&operate_bytes_, sizeof(operate_bytes_), file_descriptor_);
     if (status) {
-        rm::message("Control error: " + std::to_string(status), rm::MSG_ERROR);
+        // rm::message("Control error: " + std::to_string(status), rm::MSG_ERROR);
         if (access(port_name_.c_str(), F_OK) < 0) {
             //DEBUG 暂时关闭serial
             // init_serial();

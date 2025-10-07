@@ -95,8 +95,8 @@ void AntitopV3::push(const Eigen::Matrix<double, 4, 1>& pose, TimePoint t) {
     center_model_.predict(center_funcA_);
     center_model_.update(center_funcH_, pose_center);
 
-    rm::message("antitop count", (int)update_num_);
-    rm::message("antitop toggle", toggle_);
+    // rm::message("antitop count", (int)update_num_);
+    // rm::message("antitop toggle", toggle_);
 }
 
 Eigen::Matrix<double, 4, 1> AntitopV3::getPose(double append_delay) {

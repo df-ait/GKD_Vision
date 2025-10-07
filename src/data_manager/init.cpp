@@ -56,7 +56,7 @@ bool init_camera() {
         camlens_json.close();
     } catch (std::exception& e) {
         std::string err_str = "Failed to load CamLens json: " + std::string(e.what());
-        rm::message(err_str, rm::MSG_ERROR);
+        // rm::message(err_str, rm::MSG_ERROR);
         return false;
     }
 
@@ -66,10 +66,10 @@ bool init_camera() {
     // Data::camera.clear();
     // Data::camera.resize(camera_num + 1, nullptr);
     // if(!flag_camera) {
-    //     rm::message("Failed to get camera number", rm::MSG_ERROR);
+    //     // rm::message("Failed to get camera number", rm::MSG_ERROR);
     //     return false;
     // }
-    // rm::message("get camera number "+ std::to_string(camera_num), rm::MSG_NOTE);
+    // // rm::message("get camera number "+ std::to_string(camera_num), rm::MSG_NOTE);
     // // 初始化单相机
     // if(camera_num == 1) {
     //     Data::camera_index = 1;
@@ -89,7 +89,7 @@ bool init_camera() {
     //         false, exp, gain, rate);
 
     //     if(!flag_camera) {
-    //         rm::message("Failed to open camera", rm::MSG_ERROR);
+    //         // rm::message("Failed to open camera", rm::MSG_ERROR);
     //         return false;
     //     }
 
@@ -124,21 +124,21 @@ bool init_camera() {
 
 
     //     for(int i = 1; i <= camera_num; i++) {
-    //         rm::message("begin open camera "+ std::to_string(i), rm::MSG_NOTE);
+    //         // rm::message("begin open camera "+ std::to_string(i), rm::MSG_NOTE);
     //         Data::camera[i] = new rm::Camera();
     //         flag_camera = rm::openDaHeng(Data::camera[i], i, &Data::yaw, &Data::pitch, &Data::roll);
 
     //         if(!flag_camera) {
-    //             rm::message("Failed to open camera: " + std::to_string(i), rm::MSG_ERROR);
+    //             // rm::message("Failed to open camera: " + std::to_string(i), rm::MSG_ERROR);
     //             return false;
     //         }
-    //         rm::message("camera width "+ std::to_string(Data::camera[i]->width), rm::MSG_NOTE);
+    //         // rm::message("camera width "+ std::to_string(Data::camera[i]->width), rm::MSG_NOTE);
     //         if (Data::camera[i]->width == width_base) {
     //             Data::camera_base = i;
     //             Data::camera_index = i;
     //             flag_camera = setDaHengArgs(Data::camera[i], exp_base, gain_base, rate_base);
     //             if(!flag_camera) {
-    //                 rm::message("Failed to set camera args: " + std::to_string(i), rm::MSG_ERROR);
+    //                 // rm::message("Failed to set camera args: " + std::to_string(i), rm::MSG_ERROR);
     //                 return false;
     //             }
 
@@ -152,7 +152,7 @@ bool init_camera() {
     //             Data::camera_far = i;
     //             flag_camera = setDaHengArgs(Data::camera[i], exp_far, gain_far, rate_far);
     //             if(!flag_camera) {
-    //                 rm::message("Failed to set camera args: " + std::to_string(i), rm::MSG_ERROR);
+    //                 // rm::message("Failed to set camera args: " + std::to_string(i), rm::MSG_ERROR);
     //                 return false;
     //             }
 
@@ -163,13 +163,13 @@ bool init_camera() {
     //             rm::mallocYoloCameraBuffer(&Data::camera[i]->rgb_host_buffer, &Data::camera[i]->rgb_device_buffer, Data::camera[i]->width, Data::camera[i]->height);
 
     //         } else {
-    //             rm::message("Invalid camera width: " + std::to_string(Data::camera[i]->width), rm::MSG_ERROR);
+    //             // rm::message("Invalid camera width: " + std::to_string(Data::camera[i]->width), rm::MSG_ERROR);
     //             return false;
     //         }
     //     }
 
     // } else {
-    //     rm::message("Invalid camera number: " + std::to_string(camera_num), rm::MSG_ERROR);
+    //     // rm::message("Invalid camera number: " + std::to_string(camera_num), rm::MSG_ERROR);
     //     return false;
     // }
     return true;
@@ -189,7 +189,7 @@ bool deinit_camera() {
     //     Data::camera[i] = nullptr;
     //     rm::closeDaHeng();
     // }
-    // rm::message("Camera deinit success", rm::MSG_WARNING);
+    // // rm::message("Camera deinit success", rm::MSG_WARNING);
     return true;
 }
 
@@ -210,7 +210,7 @@ void init_serial() {
         #endif
 
         if (status != 0 || port_list.empty()) {
-            rm::message("Control port list failed", rm::MSG_ERROR);
+            // rm::message("Control port list failed", rm::MSG_ERROR);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             port_list.clear();
             continue;
@@ -219,7 +219,7 @@ void init_serial() {
         control->port_name_ = port_list[0];
         status = (int)rm::openSerialPort(control->file_descriptor_, control->port_name_);
         if (status != 0) {
-            rm::message("Control port open failed", rm::MSG_ERROR);
+            // rm::message("Control port open failed", rm::MSG_ERROR);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
             port_list.clear();
             continue;

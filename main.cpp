@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
     /*相机读取线程*/
     std::thread cameraThread(HIKcamtask);
     cv::Mat inputImage;
-    rm::message_init("autoaim");
+    // rm::message_init("autoaim");
     init_debug();
     init_attack();
     //DEBUG 暂时关闭serial
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
         Data::auto_fire = false;
     }
 
-    rm::message("Main thread hang up!", rm::MSG_OK);
+    // rm::message("Main thread hang up!", rm::MSG_OK);
     std::unique_lock<std::mutex> lock(hang_up_mutex);
     hang_up_cv.wait(lock);
     std::cout << "end" << std::endl;

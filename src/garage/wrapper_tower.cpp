@@ -71,14 +71,14 @@ bool WrapperTower::getTarget(Eigen::Vector4d& pose_rotate, const double fly_dela
     Eigen::Vector4d pose_shoot = track_queue_.getPose(fly_delay + shoot_delay);
 
     Data::target_omega = outpost_.getOmega();
-    rm::message("target omg", Data::target_omega);
+    // rm::message("target omg", Data::target_omega);
 
     #if defined(TJURM_INFANTRY) || defined(TJURM_BALANCE)
     if (Data::state == 0) {
-        rm::message("mode", 'T');
+        // rm::message("mode", 'T');
         return track_queue_.getFireFlag();
     } else if (Data::state == 1) {
-        rm::message("mode", 'A');
+        // rm::message("mode", 'A');
         pose_shoot = outpost_.getPose(fly_delay + shoot_delay);
         pose_rotate = outpost_.getPose(fly_delay + rotate_delay);
         return outpost_.getFireArmor(pose_shoot);
@@ -86,7 +86,7 @@ bool WrapperTower::getTarget(Eigen::Vector4d& pose_rotate, const double fly_dela
     #endif
 
     #if defined(TJURM_DRONSE) || defined(TJURM_SENTRY)
-    rm::message("mode", 'A');
+    // rm::message("mode", 'A');
     pose_shoot = outpost_.getPose(fly_delay + shoot_delay);
     pose_rotate = outpost_.getPose(fly_delay + rotate_delay);
     return outpost_.getFireArmor(pose_shoot);
@@ -94,7 +94,7 @@ bool WrapperTower::getTarget(Eigen::Vector4d& pose_rotate, const double fly_dela
 
     #ifdef TJURM_HERO
     if (Data::state == 1) {
-        rm::message("mode", 'C');
+        // rm::message("mode", 'C');
         pose_shoot = outpost_.getCenter(fly_delay + shoot_delay);
         pose_rotate = outpost_.getCenter(0.0);
         return outpost_.getFireCenter(pose_shoot);
