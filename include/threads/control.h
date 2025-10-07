@@ -17,10 +17,34 @@ public:
         return instance;
     }
     double get_yaw() {
+#ifdef TJURM_INFANTRY
         return static_cast<double>(this->state_bytes_.input_data.curr_yaw);
+#elif defined(TJURM_BALANCE)
+        return static_cast<double>(this->state_bytes_.input_data.curr_yaw);
+#elif defined(TJURM_HERO)
+        return static_cast<double>(this->state_bytes_.input_data.curr_yaw);
+#elif defined(TJURM_DRONSE)
+        return static_cast<double>(this->state_bytes_.input_data.curr_yaw);
+#elif defined(TJURM_SENTRY)
+        return static_cast<double>(this->state_bytes_.input_data.curr_yaw);
+#else
+        return 0.0;
+#endif
     }
     double get_pitch() {
+#ifdef TJURM_INFANTRY
         return static_cast<double>(this->state_bytes_.input_data.curr_pitch);
+#elif defined(TJURM_BALANCE)
+        return static_cast<double>(this->state_bytes_.input_data.curr_pitch);
+#elif defined(TJURM_HERO)
+        return static_cast<double>(this->state_bytes_.input_data.curr_pitch);
+#elif defined(TJURM_DRONSE)
+        return static_cast<double>(this->state_bytes_.input_data.curr_pitch);
+#elif defined(TJURM_SENTRY)
+        return static_cast<double>(this->state_bytes_.input_data.curr_pitch);
+#else
+        return 0.0;
+#endif
     }
     double get_roll() {
         #if defined(TJURM_INFANTRY) || defined(TJURM_BALANCE) || defined(TJURM_HERO) || defined(TJURM_SENTRY)
@@ -31,7 +55,19 @@ public:
         #endif
     }
     rm::ArmorColor get_enemy() {
+#ifdef TJURM_INFANTRY
         return static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+#elif defined(TJURM_BALANCE)
+        return static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+#elif defined(TJURM_HERO)
+        return static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+#elif defined(TJURM_DRONSE)
+        return static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+#elif defined(TJURM_SENTRY)
+        return static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+#else
+        return rm::ARMOR_COLOR_NONE;
+#endif
     }
     uint8_t get_state() {
         #if defined(TJURM_INFANTRY) || defined(TJURM_BALANCE) || defined(TJURM_HERO) || defined(TJURM_DRONSE)
@@ -43,14 +79,35 @@ public:
     double get_yaw_omega() {
         #if defined(TJURM_INFANTRY)
         return static_cast<double>(this->state_bytes_.input_data.curr_omega);
-        #endif
+        #else
         return 0.0;
+        #endif
     }
 
     rm::ArmorColor get_self() {
+#ifdef TJURM_INFANTRY
         rm::ArmorColor enemy_color = static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
         if (enemy_color == rm::ARMOR_COLOR_BLUE) return rm::ARMOR_COLOR_RED;
         else if (enemy_color == rm::ARMOR_COLOR_RED) return rm::ARMOR_COLOR_BLUE;
+#elif defined(TJURM_BALANCE)
+        rm::ArmorColor enemy_color = static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+        if (enemy_color == rm::ARMOR_COLOR_BLUE) return rm::ARMOR_COLOR_RED;
+        else if (enemy_color == rm::ARMOR_COLOR_RED) return rm::ARMOR_COLOR_BLUE;
+#elif defined(TJURM_HERO)
+        rm::ArmorColor enemy_color = static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+        if (enemy_color == rm::ARMOR_COLOR_BLUE) return rm::ARMOR_COLOR_RED;
+        else if (enemy_color == rm::ARMOR_COLOR_RED) return rm::ARMOR_COLOR_BLUE;
+#elif defined(TJURM_DRONSE)
+        rm::ArmorColor enemy_color = static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+        if (enemy_color == rm::ARMOR_COLOR_BLUE) return rm::ARMOR_COLOR_RED;
+        else if (enemy_color == rm::ARMOR_COLOR_RED) return rm::ARMOR_COLOR_BLUE;
+#elif defined(TJURM_SENTRY)
+        rm::ArmorColor enemy_color = static_cast<rm::ArmorColor>(this->state_bytes_.input_data.enemy_color);
+        if (enemy_color == rm::ARMOR_COLOR_BLUE) return rm::ARMOR_COLOR_RED;
+        else if (enemy_color == rm::ARMOR_COLOR_RED) return rm::ARMOR_COLOR_BLUE;
+#else
+        return rm::ARMOR_COLOR_NONE;
+#endif
     }
 
     char get_shoot_config() {

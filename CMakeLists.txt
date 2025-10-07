@@ -7,7 +7,8 @@ set(CMAKE_BUILD_TYPE DEBUG)
 add_compile_options(-g3)
 
 # 目标兵种保持要选的即可
-add_definitions(-DGKD_INFANTRY -DVISON_DEBUG=0)
+# 根据GKD定义的兵种映射到TJURM对应的兵种
+add_definitions(-DGKD_INFANTRY -DTJURM_INFANTRY -DVISON_DEBUG=0)
 
 # ============= 必须保留的原有配置 =============
 # OpenRM核心库配置（必须保留！）

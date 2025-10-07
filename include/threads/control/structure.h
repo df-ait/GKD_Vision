@@ -105,13 +105,41 @@ struct OutputData {
 
 struct StateBytes {                     // 电控传给自瞄系统的云台数据
     FrameHeader frame_header;
+#ifdef TJURM_INFANTRY
     InputData   input_data;
+#endif
+#ifdef TJURM_BALANCE
+    InputData   input_data;
+#endif
+#ifdef TJURM_HERO
+    InputData   input_data;
+#endif
+#ifdef TJURM_DRONSE
+    InputData   input_data;
+#endif
+#ifdef TJURM_SENTRY
+    InputData   input_data;
+#endif
     FrameTailer frame_tailer;   
 } __attribute__((packed));
 
 struct OperateBytes {                   // 自瞄返回给电控的控制数据
     FrameHeader frame_header;
+#ifdef TJURM_INFANTRY
     OutputData  output_data;
+#endif
+#ifdef TJURM_BALANCE
+    OutputData  output_data;
+#endif
+#ifdef TJURM_HERO
+    OutputData  output_data;
+#endif
+#ifdef TJURM_DRONSE
+    OutputData  output_data;
+#endif
+#ifdef TJURM_SENTRY
+    OutputData  output_data;
+#endif
     FrameTailer frame_tailer;
 } __attribute__((packed));
 
