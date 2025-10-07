@@ -95,19 +95,21 @@ echo -e "${yellow}\n<--- Total Lines --->${reset}"
 echo -e "${blue}        $total${reset}"
 
 # ========== 新增：模型文件安装 ==========
-VISION_FORWARD_DIR="../libs/RMvision_forward"
 MODEL_DIR="/etc/openrm/models"
 if [ ! -d "${MODEL_DIR}" ]; then
     sudo mkdir -p ${MODEL_DIR}
     sudo chmod -R 777 /etc/openrm
 fi
-sudo cp -r ${VISION_FORWARD_DIR}/models/* ${MODEL_DIR}/
 
-# ========== 新增：复制本地模型文件到系统目录 ==========
-LOCAL_MODEL_DIR="${MODEL_DIR}"
-sudo mkdir -p ${LOCAL_MODEL_DIR}
-sudo cp -f include/model/yolov7/rmyolov7-latest.xml ${LOCAL_MODEL_DIR}/ 2>/dev/null || true
-sudo cp -f include/model/yolov7/rmyolov7-latest.bin ${LOCAL_MODEL_DIR}/ 2>/dev/null || true
+# 复制本地模型文件到系统目录
+sudo cp -f include/model/yolov7/rmyolov7-latest.xml ${MODEL_DIR}/ 2>/dev/null || true
+sudo cp -f include/model/yolov7/rmyolov7-latest.bin ${MODEL_DIR}/ 2>/dev/null || true
+
+# 同时也尝试从原始位置复制（兼容性考虑）
+VISION_FORWARD_DIR="../libs/RMvision_forward"
+if [ -d "${VISION_FORWARD_DIR}/models" ]; then
+    sudo cp -r ${VISION_FORWARD_DIR}/models/* ${MODEL_DIR}/ 2>/dev/null || true
+fi
 
 # ========== 新增：驱动库安装 ==========
 DRIVER_DIR="/etc/openrm/cam_driver"
@@ -131,12 +133,20 @@ fi
 
 sudo rm -rf "${FORWARD_CONFIG_DIR}"/*
 
+# 复制通用相机标定文件
+sudo cp -f config/forward_config/camera_intrinsics.yaml "${FORWARD_CONFIG_DIR}/" 2>/dev/null || true
+sudo cp -f config/forward_config/camera_extrinsics.yaml "${FORWARD_CONFIG_DIR}/" 2>/dev/null || true
+
 # 第一个非选项参数是兵种
 TARGET="$1"
 case "$TARGET" in
     hero|infantry|sentry_l|sentry_r)
         echo "Copy ${TARGET} config to ${FORWARD_CONFIG_DIR} ..."
-        sudo cp -r "${VISION_FORWARD_DIR}/config/${TARGET}/"* "${FORWARD_CONFIG_DIR}/"
+        # 复制兵种特定配置（覆盖同名文件）
+        sudo cp -f config/${TARGET}/config.yaml "${FORWARD_CONFIG_DIR}/"
+        # 同时也复制兵种特定的相机参数（如果存在）
+        sudo cp -f config/${TARGET}/camera_intrinsics.yaml "${FORWARD_CONFIG_DIR}/" 2>/dev/null || true
+        sudo cp -f config/${TARGET}/camera_extrinsics.yaml "${FORWARD_CONFIG_DIR}/" 2>/dev/null || true
         ;;
     *)
         echo "无效或未指定兵种参数，跳过拷贝前端配置文件"
