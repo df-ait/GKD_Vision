@@ -14,26 +14,7 @@ add_definitions(-DGKD_INFANTRY -DVISON_DEBUG=0)
 find_package(OpenRM REQUIRED)
 include_directories(${OpenRM_INCLUDE_DIRS})
 
-# ============= 新增视觉前端配置 =============
-# OpenVINO配置
-set(OpenVINODeveloperPackage_DIR "/usr/lib/cmake/openvino2024.6.0")
-find_package(OpenVINO REQUIRED)
-if (NOT DEFINED openvino_VERSION)
-    message(WARNING "OpenVINO was found, but version could not be determined.")
-else()
-    message(STATUS "Using OpenVINO version ${openvino_VERSION}")
-endif()
-
-# 海康相机SDK配置
-set(VISION_FORWARD_DIR ${CMAKE_SOURCE_DIR}/libs/RMvision_forward)
-set(CAMERA_LIB_DIR "${VISION_FORWARD_DIR}/lib/64")
-include_directories(
-    ${VISION_FORWARD_DIR}/lib/include
-    ${VISION_FORWARD_DIR}/src  # 包含前端的头文件
-)
-link_directories(${CAMERA_LIB_DIR})
-
-# ============= 其他依赖保持原样 =============
+# ============= 依赖配置 =============
 # OpenCV
 find_package(OpenCV 4.5.4 REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -46,11 +27,20 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 find_package(Ceres REQUIRED)
 include_directories(${CERES_INCLUDE_DIRS})
 
+# OpenVINO配置
+set(OpenVINODeveloperPackage_DIR "/usr/lib/cmake/openvino2024.6.0")
+find_package(OpenVINO REQUIRED)
+if (NOT DEFINED openvino_VERSION)
+    message(WARNING "OpenVINO was found, but version could not be determined.")
+else()
+    message(STATUS "Using OpenVINO version ${openvino_VERSION}")
+endif()
+
 # 项目头文件
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/libs/json/single_include/nlohmann
-    ${CMAKE_SOURCE_DIR}/include/video/HIK
+    ${CMAKE_SOURCE_DIR}/include/video/HIK/include
 )
 
 # ============= 收集所有源文件 =============
@@ -58,17 +48,10 @@ file(GLOB_RECURSE ALL_SOURCE_FILES
     "src/*.cpp"
 )
 
-file(GLOB_RECURSE VISION_SOURCE_FILES
-    "${VISION_FORWARD_DIR}/src/*.cpp"
-    "${VISION_FORWARD_DIR}/src/*.hpp"
-    "${CMAKE_SOURCE_DIR}/src/send_control/*.cpp"
-)
-
 # 合并所有源文件
 set(SOURCE_FILES
     main.cpp
     ${ALL_SOURCE_FILES}
-    ${VISION_SOURCE_FILES}
 )
 
 # 可执行文件
@@ -84,20 +67,6 @@ target_link_libraries(GKD_Vision
     ${OpenCV_LIBS}
     # OpenVINO
     openvino::runtime
-    # 海康相机
-    MvCameraControl
-    MVGigEVisionSDK
-    FormatConversion
-    GCBase_gcc421_v3_0
-    GenApi_gcc421_v3_0
-    log4cpp_gcc421_v3_0
-    Log_gcc421_v3_0
-    MathParser_gcc421_v3_0
-    MediaProcess
-    MVRender
-    MvUsb3vTL
-    NodeMapData_gcc421_v3_0
-    XmlParser_gcc421_v3_0
     # 系统库
     X11
     pthread

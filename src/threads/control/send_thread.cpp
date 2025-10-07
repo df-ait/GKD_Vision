@@ -8,9 +8,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "timer.hpp"
+#include "timer/timer.hpp"
 
-#include "parameter_loader.hpp"
+#include "data_manager/parameter_loader.hpp"
 
 
 using namespace rm;

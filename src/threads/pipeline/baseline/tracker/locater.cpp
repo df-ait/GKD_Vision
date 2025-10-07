@@ -2,7 +2,7 @@
 #include "garage/garage.h"
 
 //前端参数loader
-#include "parameter_loader.hpp"
+#include "data_manager/parameter_loader.hpp"
 
 static std::vector<cv::Point3f>* BigArmorRed3D, *SmallArmorRed3D;
 static std::vector<cv::Point3f>* BigArmorBlue3D, *SmallArmorBlue3D;

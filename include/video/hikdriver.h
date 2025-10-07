@@ -16,7 +16,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <pthread.h>
-#include "datamanager/parameter_loader.h"
+#include "data_manager/parameter_loader.h"
 
 extern cv::Mat HIKimage;
 extern std::mutex HIKframemtx;

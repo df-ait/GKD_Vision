@@ -8,24 +8,8 @@ include_count=$(find include  -type f \( -name "*.cpp" -o -name "*.h" \) -exec c
 src_count=$(find src  -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec cat {} \; | wc -l)
 total=$((include_count + src_count))
 
-if [ ! -d "data/debug" ]; then
-    mkdir data/debug
-    touch data/debug/here_save_debug_images
-fi
-
-if [ ! -d "data/video" ]; then
-    mkdir data/video
-    touch data/video/here_save_video
-fi
-
-if [ ! -d "data/speed" ]; then
-    mkdir data/speed
-    touch data/speed/here_save_shoot_speed
-fi
-
 if [ ! -d "/etc/openrm" ]; then 
-    mkdir /etc/openrm
-    sudo cp -r data/uniconfig/* /etc/openrm/
+    sudo mkdir -p /etc/openrm
     sudo chmod -R 777 /etc/openrm
 fi
 
@@ -38,7 +22,7 @@ if [ ! -d "build" ]; then
 fi
 
 imshow=0
-verbose=1
+verbose=0
 
 # 注意：这里 *不再* 把 v 写进 getopts 的选项列表中
 while getopts ":rcg:ls" opt; do
@@ -105,24 +89,7 @@ fi
 sudo cp -f include/model/yolov7/rmyolov7-latest.xml ${MODEL_DIR}/ 2>/dev/null || true
 sudo cp -f include/model/yolov7/rmyolov7-latest.bin ${MODEL_DIR}/ 2>/dev/null || true
 
-# 同时也尝试从原始位置复制（兼容性考虑）
-VISION_FORWARD_DIR="../libs/RMvision_forward"
-if [ -d "${VISION_FORWARD_DIR}/models" ]; then
-    sudo cp -r ${VISION_FORWARD_DIR}/models/* ${MODEL_DIR}/ 2>/dev/null || true
-fi
 
-# ========== 新增：驱动库安装 ==========
-DRIVER_DIR="/etc/openrm/cam_driver"
-if [ ! -d "${DRIVER_DIR}" ]; then
-    sudo mkdir -p ${DRIVER_DIR}
-    sudo chmod -R 777 /etc/openrm
-fi
-sudo cp -r ${VISION_FORWARD_DIR}/lib/* ${DRIVER_DIR}/
-
-# ========== 新增：驱动库软链接 ==========
-LIB_PATH="${DRIVER_DIR}/64"
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${LIB_PATH}
-# echo "LD_LIBRARY_PATH updated to: $LD_LIBRARY_PATH"
 
 # ========== 新增：前端配置文件安装 ==========
 FORWARD_CONFIG_DIR="/etc/openrm/forward_config"
@@ -160,10 +127,16 @@ if [ "$1" = "-v" ]; then
     verbose=1
 fi
 
-sudo rm /usr/local/bin/GKD_Vision
+# 检查可执行文件是否存在
+if [ ! -f "GKD_Vision" ]; then
+    echo -e "${red}Error: GKD_Vision executable not found. Build may have failed.${reset}"
+    exit 1
+fi
+
+sudo rm /usr/local/bin/GKD_Vision 2>/dev/null || true
 sudo cp GKD_Vision /usr/local/bin/
-sudo pkill GKD_Vision
-sudo chmod 777 /dev/tty*
+sudo pkill GKD_Vision 2>/dev/null || true
+sudo chmod 777 /dev/tty* 2>/dev/null || true
 
 # 根据是否选择 -v / -s 决定调用
 if [ $verbose = 1 ]; then
@@ -174,6 +147,18 @@ else
     GKD_Vision
 fi
 
-/etc/openrm/guard.sh
+# 创建 guard.sh 如果不存在
+GUARD_SCRIPT="/etc/openrm/guard.sh"
+if [ ! -f "$GUARD_SCRIPT" ]; then
+    sudo mkdir -p /etc/openrm
+    echo '#!/bin/bash' | sudo tee "$GUARD_SCRIPT" > /dev/null
+    echo '# Guard script for GKD_Vision' | sudo tee -a "$GUARD_SCRIPT" > /dev/null
+    sudo chmod +x "$GUARD_SCRIPT"
+fi
+
+# 运行 guard 脚本
+if [ -f "$GUARD_SCRIPT" ]; then
+    $GUARD_SCRIPT
+fi
 
 echo -e "${yellow}<----- OVER ----->${reset}"

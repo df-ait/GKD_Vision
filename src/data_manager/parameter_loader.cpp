@@ -1,4 +1,4 @@
-#include "datamanager/parameter_loader.h"
+#include "data_manager/parameter_loader.h"
 
 int yaml_write(const std::string& filepath, const parameter_loader_t& params);
 int yaml_load(const std::string& filepath, parameter_loader_t& params);

@@ -7,16 +7,16 @@ using namespace rm;
 // using namespace nvonnxparser;
 
 //相机驱动
-#include "HIKdriver.hpp"
+#include "video/hikdriver.h"
 
 //rmyolo
-#include "rmyolov7_inference.h"
+#include "model/rmyolov7_inference.h"
 
 //timer
-#include "timer.hpp"
+#include "timer/timer.hpp"
 #include "send_control/socket_interface.hpp"
 
-#include "parameter_loader.hpp"
+#include "data_manager/parameter_loader.hpp"
 
 void Pipeline::detector_baseline_thread(
     std::mutex& mutex_in, bool& flag_in, std::shared_ptr<rm::Frame>& frame_in, 

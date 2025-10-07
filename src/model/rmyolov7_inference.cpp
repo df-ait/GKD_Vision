@@ -1,7 +1,7 @@
 #include "model/rmyolov7_inference.h"
 #include "timer/timer.hpp" 
 
-#include "datamanger/parameter_loader.h"
+#include "data_manager/parameter_loader.h"
 
 float CONF_THRESHOLD = CONF_THRESHOLD_D;
 
