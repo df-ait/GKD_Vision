@@ -6,8 +6,8 @@
 # model_path_xml: "/etc/openrm/models/RMyolov7-best-fp32/rmyolo-v7-best.xml"
 # model_path_bin: "/etc/openrm/models/RMyolov7-best-fp32/rmyolo-v7-best.bin"
 
-model_path_xml: "/etc/openrm/models/Rmyolo-v7-latest/rmyolov7-latest.xml"
-model_path_bin: "/etc/openrm/models/Rmyolo-v7-latest/rmyolov7-latest.bin"
+model_path_xml: "../include/model/yolov7/rmyolov7-latest.xml"
+model_path_bin: "../include/model/yolov7/rmyolov7-latest.bin"
 
 
 conf_threshold: 0.55

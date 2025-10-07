@@ -103,6 +103,12 @@ if [ ! -d "${MODEL_DIR}" ]; then
 fi
 sudo cp -r ${VISION_FORWARD_DIR}/models/* ${MODEL_DIR}/
 
+# ========== 新增：复制本地模型文件到系统目录 ==========
+LOCAL_MODEL_DIR="${MODEL_DIR}"
+sudo mkdir -p ${LOCAL_MODEL_DIR}
+sudo cp -f include/model/yolov7/rmyolov7-latest.xml ${LOCAL_MODEL_DIR}/ 2>/dev/null || true
+sudo cp -f include/model/yolov7/rmyolov7-latest.bin ${LOCAL_MODEL_DIR}/ 2>/dev/null || true
+
 # ========== 新增：驱动库安装 ==========
 DRIVER_DIR="/etc/openrm/cam_driver"
 if [ ! -d "${DRIVER_DIR}" ]; then
