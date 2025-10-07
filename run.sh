@@ -2,67 +2,55 @@
 
 blue="\033[1;34m"
 yellow="\033[1;33m"
-red="\033[1;31m"
 reset="\033[0m"
 
-# 计算代码行数
-include_count=$(find include -type f \( -name "*.h"  -o -name "*.cuh" \) -exec cat {} \; | wc -l)
-src_count=$(find src -type f \( -name "*.cpp" -o -name "*.cu" -o -name "*.txt" \) -exec cat {} \; | wc -l)
+include_count=$(find include  -type f \( -name "*.cpp" -o -name "*.h" \) -exec cat {} \; | wc -l)
+src_count=$(find src  -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec cat {} \; | wc -l)
 total=$((include_count + src_count))
 
-max_threads=$(nproc)
+if [ ! -d "data/debug" ]; then
+    mkdir data/debug
+    touch data/debug/here_save_debug_images
+fi
+
+if [ ! -d "data/video" ]; then
+    mkdir data/video
+    touch data/video/here_save_video
+fi
+
+if [ ! -d "data/speed" ]; then
+    mkdir data/speed
+    touch data/speed/here_save_shoot_speed
+fi
+
+if [ ! -d "/etc/openrm" ]; then 
+    mkdir /etc/openrm
+    sudo cp -r data/uniconfig/* /etc/openrm/
+    sudo chmod -R 777 /etc/openrm
+fi
+
+if [ ! -d "config" ]; then 
+    ln -s /etc/openrm ./config
+fi
 
 if [ ! -d "build" ]; then 
     mkdir build
 fi
 
-while getopts ":ritdg:" opt; do
+imshow=0
+verbose=0
+
+# 注意：这里 *不再* 把 v 写进 getopts 的选项列表中
+while getopts ":rcg:ls" opt; do
     case $opt in
         r)
-            echo -e "${yellow}<<<--- rebuild --->>>\n${reset}"
-            cd build
-            sudo make uninstall
-            cd ..
+            echo -e "${yellow}<--- delete 'build' --->\n${reset}"
             sudo rm -rf build
             mkdir build
             ;;
-        i)
-            echo -e "${yellow}<<<--- reinstall --->>>\n${reset}"
-            cd build
-            sudo make uninstall
-            cd ..
-            ;;
-        t)
-            echo -e "${yellow}<<<--- terminal --->>>\n${reset}"
-            cd build
-            cmake ..
-            sudo make install
-            cd ../terminal
-            if [ ! -d "build" ]; then 
-                mkdir build
-            fi
-            cd build
-            cmake ..
-            make -j "$max_threads"
-            make -j "$max_threads"
-            sudo make install
-            cd ../..
-            exit 0
-            ;;
-        d)
-            echo -e "${yellow}\nThe following files and directories will be deleted:${reset}"
-            sudo find "$(pwd)" -maxdepth 1 -name "build"
-            sudo find /usr/local/ -name "*GKD_Vision*"
-            
-            echo -e "${red}Are you sure you want to delete GKD_Vision? (y/n): ${reset}"
-            read answer
-            if [ "$answer" == "y" ] || [ "$answer" == "Y" ]; then
-                echo -e "${yellow}\n<<<--- delete --->>>\n${reset}"
-                sudo find "$(pwd)" -maxdepth 1 -name "build" -exec rm -rf {} +
-                sudo find /usr/local/ -name "*GKD_Vision*" -exec rm -rf {} +
-            else
-                echo -e "${yellow}Deletion operation canceled${reset}"
-            fi
+        c)
+            sudo cp -r data/uniconfig/* /etc/openrm/
+            sudo chmod -R 777 /etc/openrm
             exit 0
             ;;
         g)
@@ -74,6 +62,15 @@ while getopts ":ritdg:" opt; do
             git push
             exit 0
             ;;
+        l)
+            cd ../OpenRM
+            sudo ./run.sh
+            cd ../GKD_Vision
+            exit 0
+            ;;
+        s)
+            imshow=1
+            ;;
         \?)
             echo -e "${red}\n--- Unavailable param: -$OPTARG ---\n${reset}"
             ;;
@@ -83,19 +80,84 @@ while getopts ":ritdg:" opt; do
     esac
 done
 
-echo -e "${yellow}\n<<<--- start cmake --->>>\n${reset}"
+# 将所有已处理过的选项移除，剩下的即是非选项参数
+shift $((OPTIND - 1))
+
+echo -e "${yellow}<--- Start CMake --->${reset}"
 cd build
 cmake ..
 
-echo -e "${yellow}\n<<<--- start make --->>>\n${reset}"
+echo -e "${yellow}\n<--- Start Make --->${reset}"
+max_threads=$(nproc)
 make -j "$max_threads"
 
-echo -e "${yellow}\n<<<--- start install --->>>\n${reset}"
-sudo make install
-sudo rm /usr/lib/libGKD_Vision_*
-sudo ln -s /usr/local/lib/libGKD_Vision_* /usr/lib
+echo -e "${yellow}\n<--- Total Lines --->${reset}"
+echo -e "${blue}        $total${reset}"
 
-echo -e "${yellow}\n<<<--- Total Lines --->>>${reset}"
-echo -e "${blue}           $total${reset}"
+# ========== 新增：模型文件安装 ==========
+VISION_FORWARD_DIR="../libs/RMvision_forward"
+MODEL_DIR="/etc/openrm/models"
+if [ ! -d "${MODEL_DIR}" ]; then
+    sudo mkdir -p ${MODEL_DIR}
+    sudo chmod -R 777 /etc/openrm
+fi
+sudo cp -r ${VISION_FORWARD_DIR}/models/* ${MODEL_DIR}/
 
-echo -e "${yellow}\n<<<--- Welcome GKD Vision --->>>\n${reset}"
+# ========== 新增：驱动库安装 ==========
+DRIVER_DIR="/etc/openrm/cam_driver"
+if [ ! -d "${DRIVER_DIR}" ]; then
+    sudo mkdir -p ${DRIVER_DIR}
+    sudo chmod -R 777 /etc/openrm
+fi
+sudo cp -r ${VISION_FORWARD_DIR}/lib/* ${DRIVER_DIR}/
+
+# ========== 新增：驱动库软链接 ==========
+LIB_PATH="${DRIVER_DIR}/64"
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${LIB_PATH}
+# echo "LD_LIBRARY_PATH updated to: $LD_LIBRARY_PATH"
+
+# ========== 新增：前端配置文件安装 ==========
+FORWARD_CONFIG_DIR="/etc/openrm/forward_config"
+if [ ! -d "${FORWARD_CONFIG_DIR}" ]; then
+    sudo mkdir -p "${FORWARD_CONFIG_DIR}"
+    sudo chmod -R 777 /etc/openrm
+fi
+
+sudo rm -rf "${FORWARD_CONFIG_DIR}"/*
+
+# 第一个非选项参数是兵种
+TARGET="$1"
+case "$TARGET" in
+    hero|infantry|sentry_l|sentry_r)
+        echo "Copy ${TARGET} config to ${FORWARD_CONFIG_DIR} ..."
+        sudo cp -r "${VISION_FORWARD_DIR}/config/${TARGET}/"* "${FORWARD_CONFIG_DIR}/"
+        ;;
+    *)
+        echo "无效或未指定兵种参数，跳过拷贝前端配置文件"
+        exit 1
+        ;;
+esac
+
+# 再 shift 掉兵种参数，然后看下一个是否是 -v
+shift
+if [ "$1" = "-v" ]; then
+    verbose=1
+fi
+
+sudo rm /usr/local/bin/GKD_Vision
+sudo cp GKD_Vision /usr/local/bin/
+sudo pkill GKD_Vision
+sudo chmod 777 /dev/tty*
+
+# 根据是否选择 -v / -s 决定调用
+if [ $verbose = 1 ]; then
+    GKD_Vision -v
+elif [ $imshow = 1 ]; then
+    GKD_Vision -s
+else
+    GKD_Vision
+fi
+
+/etc/openrm/guard.sh
+
+echo -e "${yellow}<----- OVER ----->${reset}"
