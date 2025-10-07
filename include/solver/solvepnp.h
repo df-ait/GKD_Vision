@@ -1,5 +1,5 @@
-#ifndef __OPENRM_SOLVER_SOLVEPNP_H__
-#define __OPENRM_SOLVER_SOLVEPNP_H__
+#ifndef __VISIONLIB_SOLVER_SOLVEPNP_H__
+#define __VISIONLIB_SOLVER_SOLVEPNP_H__
 #include <structure/enums.hpp>
 #include <structure/camera.hpp>
 #include <opencv2/opencv.hpp>

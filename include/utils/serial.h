@@ -1,5 +1,5 @@
-#ifndef __OPENRM_SERIAL_SERIAL_H__
-#define __OPENRM_SERIAL_SERIAL_H__
+#ifndef __VISIONLIB_SERIAL_SERIAL_H__
+#define __VISIONLIB_SERIAL_SERIAL_H__
 
 #include <string>
 #include <vector>

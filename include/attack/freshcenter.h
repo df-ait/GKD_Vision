@@ -1,5 +1,5 @@
-#ifndef __OPENRM_ATTACK_FRESHCENTER_H__
-#define __OPENRM_ATTACK_FRESHCENTER_H__
+#ifndef __VISIONLIB_ATTACK_FRESHCENTER_H__
+#define __VISIONLIB_ATTACK_FRESHCENTER_H__
 #include <attack/attack.h>
 #include <vector>
 

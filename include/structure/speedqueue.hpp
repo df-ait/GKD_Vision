@@ -1,5 +1,5 @@
-#ifndef __OPENRM_STRUCTURE_SPEEDQUEUE_HPP__
-#define __OPENRM_STRUCTURE_SPEEDQUEUE_HPP__
+#ifndef __VISIONLIB_STRUCTURE_SPEEDQUEUE_HPP__
+#define __VISIONLIB_STRUCTURE_SPEEDQUEUE_HPP__
 #include <iostream>
 #include <deque>
 #include <vector>

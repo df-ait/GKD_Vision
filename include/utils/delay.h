@@ -1,5 +1,5 @@
-#ifndef __OPENRM_UTILS_DELAY_H__
-#define __OPENRM_UTILS_DELAY_H__
+#ifndef __VISIONLIB_UTILS_DELAY_H__
+#define __VISIONLIB_UTILS_DELAY_H__
 
 namespace rm {
 

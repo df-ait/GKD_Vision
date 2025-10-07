@@ -1,5 +1,5 @@
-#ifndef __OPENRM_KALMAN_INTERFACE_OUTPOST_V2_H__
-#define __OPENRM_KALMAN_INTERFACE_OUTPOST_V2_H__
+#ifndef __VISIONLIB_KALMAN_INTERFACE_OUTPOST_V2_H__
+#define __VISIONLIB_KALMAN_INTERFACE_OUTPOST_V2_H__
 #include <utils/timer.h>
 #include <kalman/filter/ekf.h>
 #include <kalman/filter/kf.h>

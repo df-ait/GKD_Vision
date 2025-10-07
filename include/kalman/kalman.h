@@ -1,5 +1,5 @@
-#ifndef __OPENRM_KALMAN_H__
-#define __OPENRM_KALMAN_H__
+#ifndef __VISIONLIB_KALMAN_H__
+#define __VISIONLIB_KALMAN_H__
 
 #include <kalman/filter/ekf.h>
 #include <kalman/filter/kf.h>
