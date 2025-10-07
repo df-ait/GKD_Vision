@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "utils/print.h"
-
+#include "uniterm/uniterm.h"
 
 using namespace rm;
 using namespace std;

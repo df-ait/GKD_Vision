@@ -15,7 +15,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 
-#include "data_manager/parameter_loader.hpp"
+#include "data_manager/parameter_loader.h"
 
 std::mutex hang_up_mutex;
 std::condition_variable hang_up_cv;

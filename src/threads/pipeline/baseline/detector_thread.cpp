@@ -16,7 +16,7 @@ using namespace rm;
 #include "timer/timer.hpp"
 #include "send_control/socket_interface.hpp"
 
-#include "data_manager/parameter_loader.hpp"
+#include "data_manager/parameter_loader.h"
 
 void Pipeline::detector_baseline_thread(
     std::mutex& mutex_in, bool& flag_in, std::shared_ptr<rm::Frame>& frame_in, 
