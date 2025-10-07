@@ -1,7 +1,7 @@
 #include "threads/pipeline.h"
 #include "threads/control.h"
 
-#include "timer.hpp"
+#include "timer/timer.hpp"
 #include <atomic>
 std::atomic_bool get_frame = false;
 
