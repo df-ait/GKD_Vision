@@ -28,6 +28,10 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 find_package(Ceres REQUIRED)
 include_directories(${CERES_INCLUDE_DIRS})
 
+#海康相机
+set(CAMERA_LIB_DIR "${CMAKE_SOURCE_DIR}/lib/64")
+link_directories(${CAMERA_LIB_DIR})
+
 # OpenVINO配置
 set(OpenVINODeveloperPackage_DIR "/usr/lib/cmake/openvino2024.6.0")
 find_package(OpenVINO REQUIRED)
@@ -40,8 +44,9 @@ endif()
 # 项目头文件
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/libs/json/single_include/nlohmann
-    ${CMAKE_SOURCE_DIR}/include/video/HIK/include
+    ${CMAKE_SOURCE_DIR}/lib/nlohmann
+    ${CMAKE_SOURCE_DIR}/lib/include
+    ${CMAKE_SOURCE_DIR}/lib
 )
 
 # ============= 收集所有源文件 =============
