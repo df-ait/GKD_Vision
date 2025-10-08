@@ -1,5 +1,5 @@
-#ifndef __OPENRM_KALMAN_INTERFACE_ANTITOP_V2_H__
-#define __OPENRM_KALMAN_INTERFACE_ANTITOP_V2_H__
+#ifndef __visionlib_KALMAN_INTERFACE_ANTITOP_V2_H__
+#define __visionlib_KALMAN_INTERFACE_ANTITOP_V2_H__
 #include <utils/timer.h>
 #include <kalman/filter/ekf.h>
 #include <structure/slidestd.hpp>

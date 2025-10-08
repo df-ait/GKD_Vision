@@ -1,5 +1,5 @@
-#ifndef OPENRM_VIDEO_HIKDRIVER_H
-#define OPENRM_VIDEO_HIKDRIVER_H
+#ifndef visionlib_VIDEO_HIKDRIVER_H
+#define visionlib_VIDEO_HIKDRIVER_H
 
 #include <iostream>
 #include <X11/Xlib.h> 

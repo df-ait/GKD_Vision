@@ -1,5 +1,5 @@
-#ifndef __OPENRM_KALMAN_MODEL_KF_SINGLE_MODEL_H__
-#define __OPENRM_KALMAN_MODEL_KF_SINGLE_MODEL_H__
+#ifndef __visionlib_KALMAN_MODEL_KF_SINGLE_MODEL_H__
+#define __visionlib_KALMAN_MODEL_KF_SINGLE_MODEL_H__
 
 // [ x, y, z, theta, vx, vy]  [ x, y, z, theta]
 // [ 0, 1, 2,   3,   4,  5 ]  [ 0, 1, 2,   3  ]

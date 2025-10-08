@@ -11,9 +11,9 @@ add_compile_options(-g3)
 add_definitions(-DGKD_INFANTRY -DTJURM_INFANTRY -DVISON_DEBUG=0)
 
 # ============= 必须保留的原有配置 =============
-# OpenRM核心库配置（必须保留！）
-find_package(OpenRM REQUIRED)
-include_directories(${OpenRM_INCLUDE_DIRS})
+# visionlib核心库配置（必须保留！）
+find_package(visionlib REQUIRED)
+include_directories(${visionlib_INCLUDE_DIRS})
 
 # ============= 依赖配置 =============
 # OpenCV
@@ -68,7 +68,7 @@ add_executable(GKD_Vision
 # ============= 链接库顺序调整 =============
 target_link_libraries(GKD_Vision
     # 原有依赖
-    ${OpenRM_LIBRARIES}  # 必须保留！
+    ${visionlib_LIBRARIES}  # 必须保留！
     # OpenCV
     ${OpenCV_LIBS}
     # OpenVINO

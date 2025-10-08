@@ -1,5 +1,5 @@
-#ifndef __OPENRM_KALMAN_FILTER_EKF_H__
-#define __OPENRM_KALMAN_FILTER_EKF_H__
+#ifndef __visionlib_KALMAN_FILTER_EKF_H__
+#define __visionlib_KALMAN_FILTER_EKF_H__
 
 #include <Eigen/Dense>
 #include <ceres/jet.h>
