@@ -44,7 +44,7 @@ GKD_Vision/
 │   ├── timer/            # 定时器
 │   ├── utils/            # 工具函数
 │   ├── video/            # 视频处理
-│   └── visionlib.h       # 总体头文件
+│   └──visionlib.h       # 总体头文件
 ├── src/                  # 源代码
 ├── config/               # 配置文件
 ├── libs/                 # 第三方库

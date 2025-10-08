@@ -1,7 +1,7 @@
 #include "pointer/pointer.h"
 #include <cmath>
 #include <algorithm>
-#include "uniterm/uniterm.h"
+ 
 using namespace rm;
 using namespace std;
 

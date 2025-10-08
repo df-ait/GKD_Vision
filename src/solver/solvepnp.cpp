@@ -1,7 +1,7 @@
 #include "solver/solvepnp.h"
 #include "solver/ternary.hpp"
 #include "utils/timer.h"
-#include "uniterm/uniterm.h"
+ 
 #include "structure/slidestd.hpp"
 #include <cmath>
 using namespace rm;

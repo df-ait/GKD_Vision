@@ -4,7 +4,7 @@
 #include <kalman/filter/ekf.h>
 #include <kalman/filter/kf.h>
 #include <structure/slidestd.hpp>
-#include <structure/slideweighted.hpp>
+
 #include <algorithm>
 
 // [ x, y, z, theta, vx, vy, vz, omega, r ]  [ x, y, z, theta]

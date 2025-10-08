@@ -1,5 +1,5 @@
 #include "pointer/pointer.h"
-#include "uniterm/uniterm.h"
+ 
 #include <vector>
 
 using namespace rm;

@@ -1,5 +1,5 @@
-#ifndef visionlib_VIDEO_HIKDRIVER_H
-#define visionlib_VIDEO_HIKDRIVER_H
+#ifndefvisionlib_VIDEO_HIKDRIVER_H
+#definevisionlib_VIDEO_HIKDRIVER_H
 
 #include <iostream>
 #include <X11/Xlib.h> 
