@@ -29,7 +29,7 @@ void rm::initReprojection(
         big_decal = cv::imread(big_path, cv::IMREAD_COLOR);
     }
     if (small_decal.empty()) {
-        message("Could not open or find the image!\n", rm::MSG_ERROR);
+        
         return;
     }
     paramReprojection(real_point_sw, real_point_sh, real_point_bw, real_point_bh);

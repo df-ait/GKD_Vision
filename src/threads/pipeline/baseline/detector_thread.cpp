@@ -7,7 +7,7 @@ using namespace rm;
 // using namespace nvonnxparser;
 
 //相机驱动
-#include "HIKdriver.hpp"
+#include "video/hikdriver.h"
 
 //rmyolo
 #include "rmyolov7_inference.h"
