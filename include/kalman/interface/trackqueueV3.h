@@ -1,5 +1,5 @@
-#ifndef __ visionlib_KALMAN_INTERFACE_TRACK_QUEUE_V3_H__
-#define __ visionlib_KALMAN_INTERFACE_TRACK_QUEUE_V3_H__
+#ifndef __visionlib_KALMAN_INTERFACE_TRACK_QUEUE_V3_H__
+#define __visionlib_KALMAN_INTERFACE_TRACK_QUEUE_V3_H__
 #include <memory>
 #include <vector>
 #include <utils/timer.h>

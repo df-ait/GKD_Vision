@@ -1,5 +1,5 @@
-#ifndef  visionlib_TIMER_TIMER_H__
-#define  visionlib_TIMER_TIMER_H__
+#ifndef visionlib_TIMER_TIMER_H__
+#define visionlib_TIMER_TIMER_H__
 
 #include <chrono>
 #include <iostream>

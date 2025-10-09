@@ -1,5 +1,5 @@
-#ifndef  visionlib_DATAMANAGER_PARAMETERLOADER_H
-#define  visionlib_DATAMANAGER_PARAMETERLOADER_H
+#ifndef visionlib_DATAMANAGER_PARAMETERLOADER_H
+#define visionlib_DATAMANAGER_PARAMETERLOADER_H
 
 #ifdef Status
 #undef Status

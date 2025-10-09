@@ -1,5 +1,5 @@
-#ifndef __ visionlib_UTILS_PRINT_H__
-#define __ visionlib_UTILS_PRINT_H__
+#ifndef __visionlib_UTILS_PRINT_H__
+#define __visionlib_UTILS_PRINT_H__
 #include <iostream>
 #include <string>
 

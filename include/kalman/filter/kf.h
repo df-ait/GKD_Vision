@@ -1,5 +1,5 @@
-#ifndef __ visionlib_KALMAN_FILTER_KF_H__
-#define __ visionlib_KALMAN_FILTER_KF_H__
+#ifndef __visionlib_KALMAN_FILTER_KF_H__
+#define __visionlib_KALMAN_FILTER_KF_H__
 
 #include <Eigen/Dense>
 #include <opencv2/core/eigen.hpp>

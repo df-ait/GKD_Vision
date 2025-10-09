@@ -8,13 +8,13 @@ include_count=$(find include  -type f \( -name "*.cpp" -o -name "*.h" \) -exec c
 src_count=$(find src  -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.txt" \) -exec cat {} \; | wc -l)
 total=$((include_count + src_count))
 
-if [ ! -d "/etc/ visionlib" ]; then 
-    sudo mkdir -p /etc/ visionlib
-    sudo chmod -R 777 /etc/ visionlib
+if [ ! -d "/etc/visionlib" ]; then 
+    sudo mkdir -p /etc/visionlib
+    sudo chmod -R 777 /etc/visionlib
 fi
 
 if [ ! -d "config" ]; then 
-    ln -s /etc/ visionlib ./config
+    ln -s /etc/visionlib ./config
 fi
 
 if [ ! -d "build" ]; then 
@@ -33,8 +33,8 @@ while getopts ":rcg:ls" opt; do
             mkdir build
             ;;
         c)
-            sudo cp -r data/uniconfig/* /etc/ visionlib/
-            sudo chmod -R 777 /etc/ visionlib
+            sudo cp -r data/uniconfig/* /etc/visionlib/
+            sudo chmod -R 777 /etc/visionlib
             exit 0
             ;;
         g)
@@ -47,7 +47,7 @@ while getopts ":rcg:ls" opt; do
             exit 0
             ;;
         l)
-            cd ../ visionlib
+            cd ../visionlib
             sudo ./run.sh
             cd ../GKD_Vision
             exit 0
@@ -79,10 +79,10 @@ echo -e "${yellow}\n<--- Total Lines --->${reset}"
 echo -e "${blue}        $total${reset}"
 
 # ========== 新增：模型文件安装 ==========
-MODEL_DIR="/etc/ visionlib/models"
+MODEL_DIR="/etc/visionlib/models"
 if [ ! -d "${MODEL_DIR}" ]; then
     sudo mkdir -p ${MODEL_DIR}
-    sudo chmod -R 777 /etc/ visionlib
+    sudo chmod -R 777 /etc/visionlib
 fi
 
 # 复制本地模型文件到系统目录
@@ -92,10 +92,10 @@ sudo cp -f include/model/yolov7/rmyolov7-latest.bin ${MODEL_DIR}/ 2>/dev/null ||
 
 
 # ========== 新增：前端配置文件安装 ==========
-FORWARD_CONFIG_DIR="/etc/ visionlib/forward_config"
+FORWARD_CONFIG_DIR="/etc/visionlib/forward_config"
 if [ ! -d "${FORWARD_CONFIG_DIR}" ]; then
     sudo mkdir -p "${FORWARD_CONFIG_DIR}"
-    sudo chmod -R 777 /etc/ visionlib
+    sudo chmod -R 777 /etc/visionlib
 fi
 
 sudo rm -rf "${FORWARD_CONFIG_DIR}"/*
@@ -148,9 +148,9 @@ else
 fi
 
 # 创建 guard.sh 如果不存在
-GUARD_SCRIPT="/etc/ visionlib/guard.sh"
+GUARD_SCRIPT="/etc/visionlib/guard.sh"
 if [ ! -f "$GUARD_SCRIPT" ]; then
-    sudo mkdir -p /etc/ visionlib
+    sudo mkdir -p /etc/visionlib
     echo '#!/bin/bash' | sudo tee "$GUARD_SCRIPT" > /dev/null
     echo '# Guard script for GKD_Vision' | sudo tee -a "$GUARD_SCRIPT" > /dev/null
     sudo chmod +x "$GUARD_SCRIPT"

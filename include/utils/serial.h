@@ -1,5 +1,5 @@
-#ifndef __ visionlib_SERIAL_SERIAL_H__
-#define __ visionlib_SERIAL_SERIAL_H__
+#ifndef __visionlib_SERIAL_SERIAL_H__
+#define __visionlib_SERIAL_SERIAL_H__
 
 #include <string>
 #include <vector>

@@ -2,7 +2,7 @@
 #define RM2026_DATA_MANAGER_BASE_H_
 
 #include <opencv2/opencv.hpp>
-#include < visionlib.h>
+#include <visionlib.h>
 #include <Eigen/Dense>
 #include <cstdint>
 

@@ -1,5 +1,5 @@
-#ifndef __ visionlib_KALMAN_INTERFACE_RUNE_V2_H__
-#define __ visionlib_KALMAN_INTERFACE_RUNE_V2_H__
+#ifndef __visionlib_KALMAN_INTERFACE_RUNE_V2_H__
+#define __visionlib_KALMAN_INTERFACE_RUNE_V2_H__
 #include <utils/timer.h>
 #include <kalman/filter/ekf.h>
 #include <kalman/filter/kf.h>

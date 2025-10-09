@@ -1,5 +1,5 @@
-#ifndef __ visionlib_H__
-#define __ visionlib_H__
+#ifndef __visionlib_H__
+#define __visionlib_H__
 
 // #include <VersionConfig.h>
 
@@ -36,5 +36,8 @@
 #include <utils/print.h>
 #include <video/hikdriver.h>
 #include "timer/timer.hpp"
+#include <data_manager/parameter_loader.h>
+#include <data_manager/param.h>
+#include <data_manager/base.h>
 
 #endif
