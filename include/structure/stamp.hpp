@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_STRUCTURE_STAMP_H__
-#define __VISIONLIB_STRUCTURE_STAMP_H__
+#ifndef __OPENRM_STRUCTURE_STAMP_H__
+#define __OPENRM_STRUCTURE_STAMP_H__
 
 #include <memory>
 #include <vector>
