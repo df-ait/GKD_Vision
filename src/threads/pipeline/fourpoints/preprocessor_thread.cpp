@@ -1,7 +1,7 @@
 #include "threads/pipeline.h"
 #include <unistd.h>
 #include <iostream>
-// #include <visionlib/cudatools.h>
+// #include <openrm/cudatools.h>
 
 using namespace rm;
 // using namespace nvinfer1;
@@ -30,7 +30,7 @@ using namespace rm;
 //     } else if (access(onnx_file.c_str(), F_OK) == 0){
 //         if (!rm::initTrtOnnx(onnx_file, engine_file, &armor_context_, 1U)) exit(-1);
 //     } else {
-//         // rm::message("No model file found!", rm::MSG_ERROR);
+//         rm::message("No model file found!", rm::MSG_ERROR);
 //         exit(-1);
 //     }
 
@@ -64,7 +64,7 @@ using namespace rm;
 //             if (delay < 1.0) {
 //                 continue; 
 //             } else {
-//                 // rm::message("Capture timeout", rm::MSG_ERROR);
+//                 rm::message("Capture timeout", rm::MSG_ERROR);
 //                 exit(-1);
 //             }
 //         }
@@ -94,12 +94,12 @@ using namespace rm;
 //         if (Data::record_mode) { record(frame); }
 
 //         tp2 = getTime();
-//         if (Data::pipeline_delay_flag) // rm::message("preprocess", getDoubleOfS(tp1, tp2) * 1000);
+//         if (Data::pipeline_delay_flag) rm::message("preprocess", getDoubleOfS(tp1, tp2) * 1000);
 
 //         flag_wait = getTime();
 //         while(flag_out) {
 //             if (getDoubleOfS(flag_wait, getTime()) > 10.0) {
-//                 // rm::message("Preprocessor timeout", rm::MSG_ERROR);
+//                 rm::message("Preprocessor timeout", rm::MSG_ERROR);
 //                 exit(-1);
 //             }
 //         }

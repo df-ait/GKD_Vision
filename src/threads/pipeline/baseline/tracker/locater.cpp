@@ -2,7 +2,7 @@
 #include "garage/garage.h"
 
 //前端参数loader
-#include "data_manager/parameter_loader.h"
+#include "parameter_loader.hpp"
 
 static std::vector<cv::Point3f>* BigArmorRed3D, *SmallArmorRed3D;
 static std::vector<cv::Point3f>* BigArmorBlue3D, *SmallArmorBlue3D;
@@ -193,7 +193,7 @@ bool Pipeline::locater(std::shared_ptr<rm::Frame> frame) {
             }
 
             } catch (cv::Exception e) {
-                // rm::message("solvePnP error", rm::MSG_ERROR);
+                rm::message("solvePnP error", rm::MSG_ERROR);
                 continue;
             }
 
@@ -210,8 +210,8 @@ bool Pipeline::locater(std::shared_ptr<rm::Frame> frame) {
         frame->target_list.push_back(target);
 
         double distance = sqrt(pow(target.pose_world(0), 2) + pow(target.pose_world(1), 2) + pow(target.pose_world(2), 2));
-        // rm::message("pnp dist", distance);
-        // rm::message("pnp yaw", target.armor_yaw_world * (180 / M_PI));
+        rm::message("pnp dist", distance);
+        rm::message("pnp yaw", target.armor_yaw_world * (180 / M_PI));
 
         if(false)
         {

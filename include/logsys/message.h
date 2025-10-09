@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_LOGSYS_UNITERM_H__
-#define __VISIONLIB_LOGSYS_UNITERM_H__
+#ifndef __VISIONLIB_LOGSYS_MESSAGE_H__
+#define __VISIONLIB_LOGSYS_MESSAGE_H__
 
 #include <string>
 #include <vector>

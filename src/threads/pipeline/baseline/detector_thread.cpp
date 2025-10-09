@@ -1,22 +1,22 @@
 #include "threads/pipeline.h"
 #include <unistd.h>
 #include <iostream>
-// #include <visionlib/cudatools.h>
+// #include <openrm/cudatools.h>
 using namespace rm;
 // using namespace nvinfer1;
 // using namespace nvonnxparser;
 
 //相机驱动
-#include "video/hikdriver.h"
+#include "HIKdriver.hpp"
 
 //rmyolo
-#include "model/rmyolov7_inference.h"
+#include "rmyolov7_inference.h"
 
 //timer
-#include "timer/timer.hpp"
+#include "timer.hpp"
 #include "send_control/socket_interface.hpp"
 
-#include "data_manager/parameter_loader.h"
+#include "parameter_loader.hpp"
 
 void Pipeline::detector_baseline_thread(
     std::mutex& mutex_in, bool& flag_in, std::shared_ptr<rm::Frame>& frame_in, 
@@ -55,7 +55,7 @@ void Pipeline::detector_baseline_thread(
         tp0 = getTime();
         // while(!flag_in) {
         //     if (getDoubleOfS(tp0, getTime()) > 10.0 && Data::timeout_flag) {
-        //         // rm::message("Detector timeout", rm::MSG_ERROR);
+        //         rm::message("Detector timeout", rm::MSG_ERROR);
         //         exit(-1);
         //     }
         // }
@@ -113,7 +113,7 @@ void Pipeline::detector_baseline_thread(
         //         infer_height
         //     );
         // } else {
-        //     // rm::message("Invalid yolo type", rm::MSG_ERROR);
+        //     rm::message("Invalid yolo type", rm::MSG_ERROR);
         //     exit(-1);
         // }
         
@@ -123,7 +123,7 @@ void Pipeline::detector_baseline_thread(
         // } 
 
         // tp2 = getTime();
-        // if (Data::pipeline_delay_flag) // rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
+        // if (Data::pipeline_delay_flag) rm::message("detect time", getDoubleOfS(tp1, tp2) * 1000);
 
         //读取视频帧
         HIKframemtx.lock();

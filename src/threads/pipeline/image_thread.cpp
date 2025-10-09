@@ -54,7 +54,7 @@ void Pipeline::image_thread() {
 
 
             if (Data::imshow_flag) {
-                cv::imshow("tjuRM2026frame", resized_image);
+                cv::imshow("tjurm2024frame", resized_image);
                 cv::waitKey(1);
             }
             

@@ -142,7 +142,7 @@ bool Pipeline::fourpoints(std::shared_ptr<rm::Frame> frame) {
                 Data::camera[frame->camera_id]->distortion_coeffs,
                 rvec, tvec, false, cv::SOLVEPNP_EPNP);
         } catch (cv::Exception& e) {
-            // rm::message("solvePnP error", rm::MSG_ERROR);
+            rm::message("solvePnP error", rm::MSG_ERROR);
             continue;
         }
 

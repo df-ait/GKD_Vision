@@ -76,7 +76,7 @@ void Pipeline::tracker_rune_thread(
                     Data::camera[frame->camera_id]->distortion_coeffs,
                     rvec, tvec, false, cv::SOLVEPNP_EPNP);
             } catch (cv::Exception& e) {
-                // rm::message("solvePnP error", rm::MSG_ERROR);
+                rm::message("solvePnP error", rm::MSG_ERROR);
                 continue;
             }
 
@@ -99,7 +99,7 @@ void Pipeline::tracker_rune_thread(
                                 target.pose_world(1, 0) * target.pose_world(1, 0) + 
                                 target.pose_world(2, 0) * target.pose_world(2, 0));
             if(distance > 10.0) continue;
-            // rm::message("pnp dist", distance);
+            rm::message("pnp dist", distance);
             
             // 从车库中获取符的目标
             ObjPtr objptr = garage->getObj(rm::ARMOR_ID_RUNE);
@@ -110,12 +110,12 @@ void Pipeline::tracker_rune_thread(
         }
 
         tp2 = getTime();
-        if (Data::pipeline_delay_flag) // rm::message("tracker time", getDoubleOfS(tp1, tp2) * 1000);
+        if (Data::pipeline_delay_flag) rm::message("tracker time", getDoubleOfS(tp1, tp2) * 1000);
         
         delay_list.push(getDoubleOfS(tp0, tp2));
         tp0 = tp2;
         double fps = 1.0 / delay_list.getAvg();
-        // rm::message("fps", fps);
+        rm::message("fps", fps);
 
         if (Data::imshow_flag) {
             if (Data::ui_flag) UI(frame);

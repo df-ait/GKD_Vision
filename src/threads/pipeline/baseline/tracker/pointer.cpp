@@ -1,6 +1,6 @@
 #include "threads/pipeline.h"
 
-#include "data_manager/parameter_loader.h"
+#include "parameter_loader.hpp"
 
 using namespace rm;
 
@@ -200,7 +200,7 @@ bool Pipeline::pointer(std::shared_ptr<rm::Frame> frame)
             if (!flag)
             {
                 if (Data::point_skip_flag)
-                    // rm::message("No lightbar pair found", rm::MSG_NOTE);
+                    rm::message("No lightbar pair found", rm::MSG_NOTE);
                 if (Data::image_flag && Data::ui_flag)
                 {
                     rm::displaySingleArmorClass(*(frame->image), armor);
@@ -227,7 +227,7 @@ bool Pipeline::pointer(std::shared_ptr<rm::Frame> frame)
             if (Data::auto_enemy && color_skip_flag && false)
             {
                 if (Data::point_skip_flag)
-                    // rm::message("Color is on our part", rm::MSG_NOTE);
+                    rm::message("Color is on our part", rm::MSG_NOTE);
                 if (Data::image_flag && Data::ui_flag)
                 {
                     rm::displaySingleArmorClass(*(frame->image), armor);
@@ -245,7 +245,7 @@ bool Pipeline::pointer(std::shared_ptr<rm::Frame> frame)
             if (rm::isLightBarAreaPercentValid(armor, armor_min_area_percent))
             {
                 if (Data::point_skip_flag)
-                    // rm::message("Area percent is invalid", rm::MSG_NOTE);
+                    rm::message("Area percent is invalid", rm::MSG_NOTE);
                 if (Data::image_flag && Data::ui_flag)
                 {
                     rm::displaySingleArmorClass(*(frame->image), armor);
@@ -257,7 +257,7 @@ bool Pipeline::pointer(std::shared_ptr<rm::Frame> frame)
             if (armor.four_points.size() != 4)
             {
                 if (Data::point_skip_flag)
-                    // rm::message("No four points found", rm::MSG_NOTE);
+                    rm::message("No four points found", rm::MSG_NOTE);
                 if (Data::image_flag && Data::ui_flag)
                 {
                     rm::displaySingleArmorClass(*(frame->image), armor);
@@ -335,7 +335,7 @@ bool Pipeline::pointer(std::shared_ptr<rm::Frame> frame)
     if (frame->armor_list.size() == 0)
     {
         if (Data::point_skip_flag)
-            // rm::message("No armor found", rm::MSG_NOTE);
+            rm::message("No armor found", rm::MSG_NOTE);
 
         if (Data::image_flag)
             imshow(frame);

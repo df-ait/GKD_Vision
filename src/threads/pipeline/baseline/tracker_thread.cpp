@@ -1,7 +1,7 @@
 #include "threads/pipeline.h"
 #include "threads/control.h"
 
-#include "timer/timer.hpp"
+#include "timer.hpp"
 #include <atomic>
 std::atomic_bool get_frame = false;
 
@@ -85,13 +85,13 @@ void Pipeline::tracker_baseline_thread(
         }
 
         if (Data::pipeline_delay_flag)
-            // rm::message("tracker time", getDoubleOfS(tp1, tp2) * 1000);
+            rm::message("tracker time", getDoubleOfS(tp1, tp2) * 1000);
         if (track_flag)
             delay_list.push(getDoubleOfS(tp0, tp2));
 
         tp0 = tp2;
         double fps = 1.0 / delay_list.getAvg();
-        // rm::message("fps", fps);
+        rm::message("fps", fps);
 
         if (Data::image_flag)
         {

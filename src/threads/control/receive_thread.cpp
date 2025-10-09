@@ -23,12 +23,12 @@ void Control::receive_thread() {
     while (true) {
         double dt = getDoubleOfS(tp, getTime());
         if(dt > 1.0 && Data::timeout_flag) {
-            // rm::message("Control error: timeout", rm::MSG_ERROR);
+            rm::message("Control error: timeout", rm::MSG_ERROR);
             exit(-1);
         }
 
         if(status != 0) {
-            // rm::message("Control error: " + std::to_string(status), rm::MSG_ERROR);
+            rm::message("Control error: " + std::to_string(status), rm::MSG_ERROR);
             if (access(port_name_.c_str(), F_OK) < 0) {
                 //DEBUG 暂时关闭serial
                 // init_serial();
@@ -41,7 +41,7 @@ void Control::receive_thread() {
         memset(buffer, 0, sizeof(buffer));
         // status = (int)rm::readFromSerialPort((uint8_t*)buffer, sizeof(StateBytes) + 1, file_descriptor_);
         // if (status) {
-        //     // rm::message("Control error: " + std::to_string(status), rm::MSG_ERROR);
+        //     rm::message("Control error: " + std::to_string(status), rm::MSG_ERROR);
         //     continue;
         // }
         
@@ -51,14 +51,14 @@ void Control::receive_thread() {
         // }
 
         // if (!verify_crc16_check_sum((uint8_t*)buffer, sizeof(StateBytes))) {
-        //     // rm::message("Control error: crc16 error", rm::MSG_ERROR);
+        //     rm::message("Control error: crc16 error", rm::MSG_ERROR);
         //     continue;
         // }
 
         // if (buffer[sizeof(StateBytes)] == '\n') {
         //     memcpy(&state_buffer, buffer, sizeof(StateBytes));  
         // } else {
-        //     // rm::message("Control error: data error", rm::MSG_ERROR);
+        //     rm::message("Control error: data error", rm::MSG_ERROR);
         //     continue;
         // }
 
@@ -77,7 +77,7 @@ void Control::receive_thread() {
                 }
             }
             if (it == state_queue_.end()) {
-                // rm::message("Control error: state delay error", rm::MSG_ERROR);
+                rm::message("Control error: state delay error", rm::MSG_ERROR);
                 this->state_bytes_ = state_buffer;
             }
 
