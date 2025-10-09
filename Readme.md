@@ -5,6 +5,7 @@
   - trackqueueV4中状态转移方程没有改
   - 提升精度。
   - 误差预测
+  - 删了好多有用的东西，，。。
 
 ## ✨ 特性
 
@@ -18,7 +19,7 @@
 
 ## 🛠️ 依赖项
 
-- **visionlib Framework** - 核心视觉框架
+- ** visionlib Framework** - 核心视觉框架
 - **OpenCV 4.5.4+** - 计算机视觉处理
 - **OpenVINO 2024.6.0** - 模型推理加速
 - **Eigen3** - 线性代数计算
@@ -44,7 +45,7 @@ GKD_Vision/
 │   ├── timer/            # 定时器
 │   ├── utils/            # 工具函数
 │   ├── video/            # 视频处理
-│   └──visionlib.h       # 总体头文件
+│   └── visionlib.h       # 总体头文件
 ├── src/                  # 源代码
 ├── config/               # 配置文件
 ├── libs/                 # 第三方库

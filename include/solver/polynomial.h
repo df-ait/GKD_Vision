@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_SOLVER_POLYNOMIAL_H__
-#define __VISIONLIB_SOLVER_POLYNOMIAL_H__
+#ifndef __ visionlib_SOLVER_POLYNOMIAL_H__
+#define __ visionlib_SOLVER_POLYNOMIAL_H__
 
 #include <vector>
 

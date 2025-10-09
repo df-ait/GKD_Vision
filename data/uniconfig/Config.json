@@ -40,11 +40,11 @@
         },
         "SaveSpeed" : {
             "SpeedWrite" : true,
-            "SavePath" : "/etc/visionlib/speed_log.txt"
+            "SavePath" : "/etc/ visionlib/speed_log.txt"
         },
 
-        "BigDecal" : "/etc/visionlib/image/armor1.png",
-        "SmallDecal" : "/etc/visionlib/image/armor3.png"
+        "BigDecal" : "/etc/ visionlib/image/armor1.png",
+        "SmallDecal" : "/etc/ visionlib/image/armor3.png"
     },
 
     "Car" : {
@@ -72,7 +72,7 @@
     },
 
     "Camera" : {
-        "CamLensDir" : "/etc/visionlib/CamLens.json",
+        "CamLensDir" : "/etc/ visionlib/CamLens.json",
         "VideoSaveDir" : "/home/nvidia/Code/TJURM-Aiming/data/video",
         "DebugSaveDir" : "/home/nvidia/Code/TJURM-Aiming/data/debug",
         "Base" : {
@@ -103,8 +103,8 @@
             "TypeDefine" : ["V5", "FP", "FPX"],
             "Type" : "V5",
             "V5" : {
-                "DirONNX" : "/etc/visionlib/models/v5n.onnx",
-                "DirEngine" : "/etc/visionlib/models/v5n.engine",
+                "DirONNX" : "/etc/ visionlib/models/v5n.onnx",
+                "DirEngine" : "/etc/ visionlib/models/v5n.engine",
                 "InferWidth" : 640,
                 "InferHeight" : 480,
                 "LocateNum" : 4,
@@ -118,8 +118,8 @@
                 "ColorMap" : [0, 1, 2, 3]
             },
             "FPX" : {
-                "DirONNX" : "/etc/visionlib/models/RP24.onnx",
-                "DirEngine" : "/etc/visionlib/models/RP24.engine",
+                "DirONNX" : "/etc/ visionlib/models/RP24.onnx",
+                "DirEngine" : "/etc/ visionlib/models/RP24.engine",
                 "InferWidth" : 640,
                 "InferHeight" : 640,
                 "LocateNum" : 8,
@@ -134,8 +134,8 @@
             }
         },
         "YoloRune" : {
-            "DirONNX" : "/etc/visionlib/models/rune.onnx",
-            "DirEngine" : "/etc/visionlib/models/rune.engine",
+            "DirONNX" : "/etc/ visionlib/models/rune.onnx",
+            "DirEngine" : "/etc/ visionlib/models/rune.engine",
             "InferWidth" : 640,
             "InferHeight" : 512,
             "ClassNum" : 2,

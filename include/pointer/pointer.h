@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_POINTER_POINTER_H__
-#define __VISIONLIB_POINTER_POINTER_H__
+#ifndef __ visionlib_POINTER_POINTER_H__
+#define __ visionlib_POINTER_POINTER_H__
 
 #include "structure/stamp.hpp"
 #include "structure/enums.hpp"

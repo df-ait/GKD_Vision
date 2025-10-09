@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_ATTACK_FILTRATE_H__
-#define __VISIONLIB_ATTACK_FILTRATE_H__
+#ifndef __ visionlib_ATTACK_FILTRATE_H__
+#define __ visionlib_ATTACK_FILTRATE_H__
 #include <attack/attack.h>
 #include <vector>
 

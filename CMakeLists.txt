@@ -83,12 +83,12 @@ file(GLOB_RECURSE SOURCE_FILES
 # ------------------------------------------------------------------------------
 # 7. 生成可执行文件
 # ------------------------------------------------------------------------------
-add_executable(visionlib ${SOURCE_FILES})
+add_executable( visionlib ${SOURCE_FILES})
 
 # ------------------------------------------------------------------------------
 # 8. 链接依赖库
 # ------------------------------------------------------------------------------
-target_link_libraries(visionlib
+target_link_libraries( visionlib
     ${OpenCV_LIBS}
     openvino::runtime
 
@@ -115,7 +115,7 @@ target_link_libraries(visionlib
 # 9. 编译器选项（可选）
 # ------------------------------------------------------------------------------
 if (CMAKE_COMPILER_IS_GNUCXX)
-    target_compile_options(visionlib PRIVATE -Wall)
+    target_compile_options( visionlib PRIVATE -Wall)
 endif()
 
 # ------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ endif()
 # ------------------------------------------------------------------------------
 option(ENABLE_TEMPLATE_REGISTRATION "Enable TEMPLATE plugin registration" OFF)
 if (ENABLE_TEMPLATE_REGISTRATION)
-    target_compile_definitions(visionlib PRIVATE ENABLE_TEMPLATE_REGISTRATION)
+    target_compile_definitions( visionlib PRIVATE ENABLE_TEMPLATE_REGISTRATION)
 endif()
 
 # ------------------------------------------------------------------------------

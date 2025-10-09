@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_ATTACK_DEADLOCKER_H__
-#define __VISIONLIB_ATTACK_DEADLOCKER_H__
+#ifndef __ visionlib_ATTACK_DEADLOCKER_H__
+#define __ visionlib_ATTACK_DEADLOCKER_H__
 #include <attack/attack.h>
 #include <vector>
 

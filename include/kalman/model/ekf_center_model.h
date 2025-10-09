@@ -1,5 +1,5 @@
-#ifndef __visionlib_KALMAN_MODEL_EKF_CENTER_MODEL_H__
-#define __visionlib_KALMAN_MODEL_EKF_CENTER_MODEL_H__
+#ifndef __ visionlib_KALMAN_MODEL_EKF_CENTER_MODEL_H__
+#define __ visionlib_KALMAN_MODEL_EKF_CENTER_MODEL_H__
 
 
 // [ x, y, z, theta, vx, vy, vz, omega, r]  [ x, y, z, theta]

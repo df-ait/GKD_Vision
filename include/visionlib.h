@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_H__
-#define __VISIONLIB_H__
+#ifndef __ visionlib_H__
+#define __ visionlib_H__
 
 // #include <VersionConfig.h>
 
@@ -17,13 +17,13 @@
 
 #include <structure/cyclequeue.hpp>
 #include <structure/slidestd.hpp>
-// #include <structure/swapbuffer.hpp>
+#include <structure/swapbuffer.hpp>
 #include <structure/speedqueue.hpp>
 
 #include <structure/enums.hpp>
 #include <structure/stamp.hpp>
-// #include <structure/camera.hpp>
-// #include <structure/shm.hpp>
+#include <structure/camera.hpp>
+#include <structure/shm.hpp>
 
 // #include <tensorrt/tensorrt.h>
 

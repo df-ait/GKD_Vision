@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_SOLVER_TRICHOTOMY_H__
-#define __VISIONLIB_SOLVER_TRICHOTOMY_H__
+#ifndef __ visionlib_SOLVER_TRICHOTOMY_H__
+#define __ visionlib_SOLVER_TRICHOTOMY_H__
 
 namespace rm {
 

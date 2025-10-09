@@ -1,5 +1,5 @@
-#ifndef __visionlib_KALMAN_INTERFACE_TRAJECTORY_V1_H__
-#define __visionlib_KALMAN_INTERFACE_TRAJECTORY_V1_H__
+#ifndef __ visionlib_KALMAN_INTERFACE_TRAJECTORY_V1_H__
+#define __ visionlib_KALMAN_INTERFACE_TRAJECTORY_V1_H__
 #include <utils/timer.h>
 #include <kalman/filter/ekf.h>
 #include <algorithm>

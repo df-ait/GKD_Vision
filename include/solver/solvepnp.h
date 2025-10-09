@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_SOLVER_SOLVEPNP_H__
-#define __VISIONLIB_SOLVER_SOLVEPNP_H__
+#ifndef __ visionlib_SOLVER_SOLVEPNP_H__
+#define __ visionlib_SOLVER_SOLVEPNP_H__
 #include <structure/enums.hpp>
 
 #include <opencv2/opencv.hpp>

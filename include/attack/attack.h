@@ -1,5 +1,5 @@
-#ifndef __VISIONLIB_ATTACK_ATTACK_H__
-#define __VISIONLIB_ATTACK_ATTACK_H__
+#ifndef __ visionlib_ATTACK_ATTACK_H__
+#define __ visionlib_ATTACK_ATTACK_H__
 #include <utils/timer.h>
 #include <structure/stamp.hpp>
 #include <structure/enums.hpp>
