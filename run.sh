@@ -17,6 +17,8 @@ total=$((include_count + src_count))
 # 0. 系统目录准备
 # ==============================================================
 
+export LD_LIBRARY_PATH=$(pwd)/lib/64:$LD_LIBRARY_PATH
+
 SYS_DIR="/etc/visionlib"
 if [ ! -d "$SYS_DIR" ]; then
     echo -e "${yellow}创建系统配置目录: $SYS_DIR${reset}"
