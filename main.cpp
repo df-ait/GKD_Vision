@@ -77,9 +77,14 @@ int main(int argc, char** argv) {
         Data::auto_fire = false;
     }
 
-    // rm::message("Main thread hang up!", rm::MSG_OK);
-    std::unique_lock<std::mutex> lock(hang_up_mutex);
-    hang_up_cv.wait(lock);
+    // Before exiting, signal the camera thread to stop and wait for it to finish
+    g_camera_thread_running = false;
+    
+    // Wait for a reasonable amount of time for the camera thread to finish
+    if (cameraThread.joinable()) {
+        cameraThread.join();
+    }
+
     std::cout << "end" << std::endl;
     return 0;
 }

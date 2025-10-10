@@ -20,6 +20,7 @@
 
 extern cv::Mat HIKimage;
 extern std::mutex HIKframemtx;
+extern bool g_camera_thread_running;
 
 int HIKcamtask();
 

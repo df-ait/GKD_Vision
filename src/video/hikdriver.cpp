@@ -4,6 +4,7 @@
 
 cv::Mat HIKimage;
 std::mutex HIKframemtx;
+bool g_camera_thread_running = true;
 
 bool PrintDeviceInfo(MV_CC_DEVICE_INFO* pstMVDevInfo)
 {
@@ -175,7 +176,7 @@ int HIKcamtask()
         // MV_CC_SetGain(handle, 15.2);
         // MV_CC_SetExposureTime(handle, 6000);
         // MV_CC_SetFrameRate(handle, 120);
-        while(1){
+        while(g_camera_thread_running){
     
             nRet = MV_CC_GetOneFrameTimeout(handle, pData, nDataSize, &stImageInfo, 1000);
             if (nRet == MV_OK)
@@ -209,7 +210,9 @@ int HIKcamtask()
                 cv::cvtColor(frame, image, cv::COLOR_RGB2BGR); 
 
                 HIKframemtx.lock();
-                image.copyTo(HIKimage);
+                if(g_camera_thread_running) { // Double check before copying
+                    image.copyTo(HIKimage);
+                }
                 HIKframemtx.unlock();
 
                 /*DEBUG选项*/
@@ -224,6 +227,7 @@ int HIKcamtask()
                     // 按下ESC键退出循环
                     int keyCode = cv::waitKey(30);
                     if (keyCode == 27) {
+                        g_camera_thread_running = false;  // Set flag to exit
                         break;
                     }
                     // cv::destroyWindow;
@@ -234,6 +238,10 @@ int HIKcamtask()
         else
         {
             printf("No data[%x]\n", nRet);
+            // Add a small delay to prevent busy waiting when no data is available
+            if(g_camera_thread_running) {
+                usleep(1000); // 1ms delay
+            }
         }
         }
 
