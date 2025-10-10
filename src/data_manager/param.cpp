@@ -11,9 +11,30 @@ using std::string;
 
 // 加载json文件
 bool Param::load(const string& path) {
-    ifstream input_json(path);
-    input_json >> params_;
-    return !params_.is_null();
+    try {
+        ifstream input_json(path);
+        if (!input_json.is_open()) {
+            std::cerr << "Error: Cannot open config file " << path << std::endl;
+            return false;
+        }
+        
+        // Check if file is empty
+        input_json.seekg(0, std::ios::end);
+        if (input_json.tellg() == 0) {
+            std::cerr << "Warning: Config file is empty: " << path << std::endl;
+            return false;
+        }
+        input_json.seekg(0, std::ios::beg);
+        
+        input_json >> params_;
+        return !params_.is_null();
+    } catch (const nlohmann::json::exception& e) {
+        std::cerr << "JSON parsing error in file " << path << ": " << e.what() << std::endl;
+        return false;
+    } catch (...) {
+        std::cerr << "Unknown error occurred while loading config file " << path << std::endl;
+        return false;
+    }
 }
 
 // 保存为json文件
@@ -24,7 +45,13 @@ void Param::dump(const std::string& path) {
 
 // 重载[]运算符，使用方法类似python字典
 json& Param::operator[](const std::string& key) {
-    return params_.at(key);
+    try {
+        return params_.at(key);
+    } catch (const nlohmann::json::out_of_range&) {
+        // If the key doesn't exist, add it with a null value and return it
+        params_[key] = nullptr;
+        return params_[key];
+    }
 }
 
 // 将Mat转化为json对象

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <chrono>
 #include <unistd.h>
-
+#include "visionlib.h"
 #include "video/hikdriver.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>

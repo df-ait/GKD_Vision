@@ -5,11 +5,17 @@
 #include <memory>
 #include <string>
 #include <fstream>
+#include <exception>
 #include "json.hpp"
 
 class Param {
 public:
-    Param(const std::string& json_path) { load(json_path); }
+    explicit Param(const std::string& json_path) { 
+        if (!load(json_path)) {
+            // Initialize with an empty JSON object if config file fails to load
+            params_ = nlohmann::json::object();
+        }
+    }
     static std::shared_ptr<Param> get_instance() {
         static std::shared_ptr<Param> instance(new Param());
         return instance;
@@ -24,7 +30,12 @@ public:
     static void to_json(nlohmann::json& j, const cv::Mat& p);
 
 private:
-    Param() { load(default_path_); }
+    Param() { 
+        if (!load(default_path_)) {
+            // Initialize with an empty JSON object if config file fails to load
+            params_ = nlohmann::json::object();
+        }
+    }
     Param(const Param&) = delete;
     Param& operator=(const Param&) = delete;
 

@@ -60,6 +60,10 @@ FORWARD_CONFIG_DIR="$SYS_DIR/forward_config/${TARGET}"
 sudo install -d -m755 "$FORWARD_CONFIG_DIR"
 sudo cp -rf config/${TARGET}/* "$FORWARD_CONFIG_DIR/" 2>/dev/null || true
 sudo cp -rf config/forward_config/* "$FORWARD_CONFIG_DIR/" 2>/dev/null || true
+
+# Copy the main Config.json file
+sudo cp -f data/uniconfig/Config.json "$SYS_DIR/" 2>/dev/null || true
+
 echo -e "${yellow}配置文件已更新到：$FORWARD_CONFIG_DIR${reset}"
 
 # ==============================================================
