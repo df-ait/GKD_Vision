@@ -1,6 +1,6 @@
 #include "threads/pipeline.h"
 
-#include "parameter_loader.hpp"
+#include "data_manager/parameter_loader.h"
 
 using namespace rm;
 
