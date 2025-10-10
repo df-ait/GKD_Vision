@@ -162,20 +162,32 @@ void writeMatricesToFile(const std::string& filename) {
     fs << "rotate_pnp2hea" << cvRotate;
     fs << "trans_pnp2head" << cvTrans;
     fs.release();
+
+    params.intrinsic_matrix = camMat.clone();
+    params.distortion_coeffs = distMat.clone();
 }
 
 //读取相机外参
 void readCameraExtrinsics(const std::string& filename) {
     std::cout << "path: !: " << filename << std::endl;
     cv::FileStorage fs(filename, cv::FileStorage::READ);
+    if (!fs.isOpened()) {
+        std::cerr << "❌ 无法打开外参文件: " << filename << std::endl;
+        return;
+    }
 
     cv::Mat cvRotate, cvTrans;
     fs["rotate_pnp2hea"] >> cvRotate;
     fs["trans_pnp2head"] >> cvTrans;
-    std::cout << "matrix: \n" << cvTrans << std::endl;
     fs.release();
 
-    // 将 cv::Mat 转换回 Eigen::Matrix
+    // ✅ 深拷贝，防止悬空指针
+    cvRotate = cvRotate.clone();
+    cvTrans  = cvTrans.clone();
+
+    std::cout << "matrix: \n" << cvTrans << std::endl;
+
+    // 转换到 Eigen
     Eigen::Matrix3d rotate_pnp2hea;
     Eigen::Matrix4d trans_pnp2head;
 
@@ -194,6 +206,7 @@ void readCameraExtrinsics(const std::string& filename) {
     params.rotate_pnp2hea = rotate_pnp2hea;
     params.trans_pnp2head = trans_pnp2head;
 }
+
 
 
 
