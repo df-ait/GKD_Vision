@@ -77,6 +77,11 @@ int main(int argc, char** argv) {
         Data::auto_fire = false;
     }
 
+    // Keep the main thread alive to allow vision processing to continue
+    // Use condition variable to hang up the main thread until signal
+    std::unique_lock<std::mutex> lock(hang_up_mutex);
+    hang_up_cv.wait(lock);
+    
     // Before exiting, signal the camera thread to stop and wait for it to finish
     g_camera_thread_running = false;
     
