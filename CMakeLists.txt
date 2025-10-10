@@ -49,8 +49,12 @@ link_directories(${CAMERA_LIB_DIR})
 # 5. 包含头文件目录
 # ==============================================================
 include_directories(
-    ${CMAKE_SOURCE_DIR}/include
-    ${OpenCV_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/include              # 项目公共头文件
+    ${CMAKE_SOURCE_DIR}/lib/include          # 第三方库头文件
+    ${CMAKE_SOURCE_DIR}/lib/nlohmann         # JSON 库头文件
+    ${CMAKE_SOURCE_DIR}/lib                  # 如有直接放在 lib 下的头文件
+    ${OpenCV_INCLUDE_DIRS}                   # OpenCV 头文件
+    # ${OpenVINO_INCLUDE_DIRS}               # 通常 find_package(OpenVINO) 已经处理
 )
 
 # ==============================================================
