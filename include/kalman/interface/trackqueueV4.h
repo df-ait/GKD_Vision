@@ -5,6 +5,7 @@
 #include <utils/timer.h>
 #include <kalman/filter/ekf.h>
 #include <structure/slidestd.hpp>
+#include <kalman/interface/error_calculator.h>
 
 // [ x, y, z, v, vz, angle, w, a ]  [ x, y, z ]
 // [ 0, 1, 2, 3, 4,    5,   6, 7 ]  [ 0, 1, 2 ]
@@ -104,6 +105,9 @@ private:
     Eigen::Matrix<double, 8, 8> matrixQ_; // 运动模型的过程噪声协方差矩阵
     Eigen::Matrix<double, 3, 3> matrixR_;   // 运动模型的观测噪声协方差矩阵
 
+    /*新增*/
+    ErrorCalculator error_calculator;//误差计算类
+    /******************************/
 public:
     std::vector<TQstateV4*> list_;          // 目标状态列表
 };

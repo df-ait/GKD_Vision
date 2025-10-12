@@ -23,11 +23,11 @@ public:
     }
 
 public:
-    TimePoint last_t_;
+    TimePoint last_t_;//最后一次接收到数据的时间戳
     rm::ArmorSize size_ = rm::ARMOR_SIZE_UNKNOWN;
     rm::ArmorID id_ = rm::ARMOR_ID_UNKNOWN;
 };
 
-using ObjPtr = std::shared_ptr<ObjInterface>;
+using ObjPtr = std::shared_ptr<ObjInterface>;//是指向ObjInterface的智能指针的别名
 
 #endif
