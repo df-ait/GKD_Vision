@@ -2,6 +2,11 @@
 using namespace rm;
 using namespace std;
 
+// --- debug新增 ---
+#define DEBUG_ERROR_STATS 1 //1:开启误差统计，0：关闭误差统计
+#define DEBUG_PRINT_ERROR 0 //1:开启误差打印，0：关闭误差打印 
+// ----------------
+
 WrapperCar::WrapperCar(ArmorID id) : ObjInterface(id) {
     this->id_ = id;
     auto param = Param::get_instance();
@@ -38,7 +43,6 @@ WrapperCar::WrapperCar(ArmorID id) : ObjInterface(id) {
     armor_to_center_ = (*param)["Kalman"]["Switch"]["ArmorToCenter"];
     center_to_armor_ = (*param)["Kalman"]["Switch"]["CenterToArmor"];
 
-    //传入是否保留该跟踪目标的阈值
     track_queue_ = TrackQueueV4(track_count, track_dist, track_delay);
     antitop_4_ = new AntitopV3(antitop_min_r, antitop_max_r, 4);
     antitop_2_ = new AntitopV3(antitop_min_r, antitop_max_r, 2);
@@ -59,7 +63,6 @@ WrapperCar::WrapperCar(ArmorID id) : ObjInterface(id) {
     antitop_4_->setOmegaMatrixQ(antitopOmegaQ[0], antitopOmegaQ[1], antitopOmegaQ[2]);
     antitop_4_->setOmegaMatrixR(antitopOmegaQ[0]);
     
-    //英雄机器人
     if (id_ == rm::ARMOR_ID_HERO)
         antitop_4_->setFireValue(antitop_fire_update, antitop_fire_delay, antitop_fire_angle, antitop_fire_angle_big_);
     else
@@ -85,15 +88,49 @@ void WrapperCar::push(const Target& target, TimePoint t) {
     Eigen::Vector4d pose(
         target.pose_world[0], target.pose_world[1], target.pose_world[2], target.armor_yaw_world
     );
-    //pose是观测位姿
     track_queue_.push(pose, t);
 
     curr_armor_num_++;
     if (target.armor_size == ARMOR_SIZE_BIG_ARMOR) {
         armor_size_count_ += 1;
     }
-    
+
+    //--------------- debug新增 ---------------------
+    for(const auto& pred : history_predictions_){
+        //存在坐标系不同问题？
+        auto err = error_calculator_.calculerror4D(pred.pose,pose,t,pred.predict_time);//计算误差
+        if(err.is_error_valid){
+            error_results_.push_back(err);//存储误差结果
+            //打印误差结果
+            if(DEBUG_PRINT_ERROR && error_results_.size() % 10 == 0){
+            error_calculator_.Print_error();
+        }
+        }
+    };
+
+    //定期更新误差统计结果
+    if(error_results_.size() % 10 == 0){
+        error_stats_ = error_calculator_.getErrorStats(error_results_);//每10帧计算一次误差统计结果
+    }
+
+    //打印误差统计结果
+    if(DEBUG_ERROR_STATS && error_stats_.total_count > 0 && error_stats_.total_count % 50 == 0){
+        printErrorStates();
+    }
+ 
+    //只保留最近1000个误差结果
+    for(auto it = error_results_.begin(); it != error_results_.end(); ){
+       
+        if(error_results_.size() > 1000){
+            it = error_results_.erase(it);
+        } else {
+            break;
+        }
+    }
+    //--------------------------------------------------
+
 }
+
 
 void WrapperCar::update() {
     //GKDTODO (figureout what is WrapperCar::update and why use it)
@@ -101,7 +138,7 @@ void WrapperCar::update() {
     track_queue_.update();
 
     if (curr_armor_num_ > 1) {
-        armor_size_count_  -= 1;//检测到多个装甲板，就降低对大装甲板的置信度
+        armor_size_count_  -= 1;
     }
     curr_armor_num_ = 0;
 
@@ -128,7 +165,7 @@ void WrapperCar::update() {
     // antitop->push(pose, t);
 }
 
-//欧拉角到旋转矩阵的转换函数
+
 inline void fuckWorld(
     Eigen::Matrix<double, 4, 4>& matrix_trans,
     const double yaw,
@@ -149,12 +186,10 @@ inline void fuckWorld(
     matrix_trans = rotate_yaw * rotate_pitch;
 }
 
-//获取预测的目标位姿，并判断开火条件
-/*pose_rotate返回预测的位姿*/
 bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay, const double rotate_delay, const double shoot_delay) {
     rm::AntitopV3* antitop = nullptr;
-    Eigen::Vector4d pose_rotate_abs;//当前机器人坐标系下的目标位姿预测
-    Eigen::Matrix4d trans_head2world;//4*4变换矩阵，用于从头部/相机坐标系转换到世界坐标系
+    Eigen::Vector4d pose_rotate_abs;
+    Eigen::Matrix4d trans_head2world;
 
     if (id_ == rm::ARMOR_ID_INFANTRY_3 || id_ == rm::ARMOR_ID_INFANTRY_4 || id_ == rm::ARMOR_ID_INFANTRY_5) {
 
@@ -170,12 +205,19 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
         antitop = antitop_4_;
         // rm::message("antitop armor", 4);
     }
-    //获取预测位姿pose_shoot判断是否会开火
     Eigen::Vector4d pose_shoot = track_queue_.getPose(fly_delay + shoot_delay);
     pose_rotate_abs = track_queue_.getPose(fly_delay + rotate_delay);
-    //坐标系转换
     rm::tf_trans_head2world(trans_head2world, -Data::yaw, 0.);
     pose_rotate = trans_head2world * pose_rotate_abs;
+
+    // --------------- debug新增 ---------------------
+    TimePoint now = getTime();
+    history_predictions_.push_back({now,pose_rotate,fly_delay + rotate_delay});
+    // 仅保留最近100个观测结果
+    if(history_predictions_.size() > 100) {
+        history_predictions_.erase(history_predictions_.begin());
+    }
+    //------------------------------------------------
 
     if(false)
     {
@@ -186,7 +228,7 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
     }
 
 
-    Data::target_omega = antitop->getOmega();//获取当前目标的角速度
+    Data::target_omega = antitop->getOmega();
     // rm::message("target omg", Data::target_omega);
 
 
@@ -199,11 +241,13 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
     if (flag_antitop_) {
         if(flag_center_) {
             // rm::message("mode", 'C');
+            //以中心点为瞄准点的反陀螺模式
             pose_shoot = antitop->getCenter(fly_delay + shoot_delay);
             pose_rotate = antitop->getCenter(fly_delay + rotate_delay);
             return antitop->getFireCenter(pose_shoot);
         } else {
             // rm::message("mode", 'A');
+            //以装甲板为瞄准点的反陀螺模式
             pose_shoot = antitop->getPose(fly_delay + shoot_delay);
             pose_rotate = antitop->getPose(fly_delay + rotate_delay);
 
@@ -211,12 +255,12 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
         }      
     } else {
         // rm::message("mode", 'T');
+        //不使用反陀螺模式，直接使用TrackQueue线性预测的结果
         return true;
     }
     
 }
 
-//判断装甲板类型
 rm::ArmorSize WrapperCar::getArmorSize() {
     double abs_big, abs_small;
     switch (id_) {
@@ -246,7 +290,6 @@ rm::ArmorSize WrapperCar::getArmorSize() {
     }
 }
 
-//获取当前目标跟踪状态的调试信息
 void WrapperCar::getState(std::vector<std::string>& lines) {
     lines.clear();
 

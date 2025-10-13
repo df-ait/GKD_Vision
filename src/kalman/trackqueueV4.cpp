@@ -1,4 +1,4 @@
-#include "kalman/interface/error_calculator.h"
+//#include "kalman/interface/error_calculator.h"
 #include "kalman/interface/trackqueueV4.h"
 #include <iostream>
 #include <memory>
@@ -97,17 +97,17 @@ void TrackQueueV4::push(Eigen::Matrix<double, 4, 1>& input_pose, TimePoint t) {
     } else {
         //这里更新了原来存在的位姿，在这个地方进行位姿误差计算
         /*新增*/
-        double dt_ = getDoubleOfS(best_state->last_t , t);
+        //double dt_ = getDoubleOfS(best_state->last_t , t);
         //funcA_.dt = dt_;
         //因为getpose是基于当前时间来计算
-        Eigen::Matrix<double, 4, 1> predict_pose;
-        double x = best_state->model->estimate_X[0] + dt_ * best_state->model->estimate_X[3] * cos(best_state->model->estimate_X[5]);
-        double y = best_state->model->estimate_X[1] + dt_ * best_state->model->estimate_X[3] * sin(best_state->model->estimate_X[5]);
-        double z = best_state->model->estimate_X[2] + dt_ * best_state->model->estimate_X[4];
-        predict_pose<<x,y,z,0;
-        error_result error_res;
-        error_res = error_calculator.calculerror4D(predict_pose , input_pose_m,best_state->last_t , t);
-        error_calculator.Print_error(error_res);
+        // Eigen::Matrix<double, 4, 1> predict_pose;
+        // double x = best_state->model->estimate_X[0] + dt_ * best_state->model->estimate_X[3] * cos(best_state->model->estimate_X[5]);
+        // double y = best_state->model->estimate_X[1] + dt_ * best_state->model->estimate_X[3] * sin(best_state->model->estimate_X[5]);
+        // double z = best_state->model->estimate_X[2] + dt_ * best_state->model->estimate_X[4];
+        // predict_pose<<x,y,z,0;
+        // error_result error_res;
+        // error_res = error_calculator.calculerror4D(predict_pose , input_pose_m,best_state->last_t , t);
+        // error_calculator.Print_error(error_res);
         /*********************************************/
         funcA_.dt = getDoubleOfS(best_state->last_t, t);
         best_state->refresh(input_pose_m, t);
