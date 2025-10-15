@@ -17,7 +17,7 @@ if [ -z "$TARGET" ]; then
     exit 1
 fi
 
-imshow=0
+imshow=1
 verbose=1
 shift
 if [ "$1" = "-v" ]; then

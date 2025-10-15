@@ -4,7 +4,7 @@ using namespace std;
 
 // --- debug新增 ---
 #define DEBUG_ERROR_STATS 1 //1:开启误差统计，0：关闭误差统计
-#define DEBUG_PRINT_ERROR 0 //1:开启误差打印，0：关闭误差打印 
+#define DEBUG_PRINT_ERROR 1 //1:开启误差打印，0：关闭误差打印 
 // ----------------
 
 WrapperCar::WrapperCar(ArmorID id) : ObjInterface(id) {
@@ -102,6 +102,7 @@ void WrapperCar::push(const Target& target, TimePoint t) {
         if(err.is_error_valid){
             error_results_.push_back(err);//存储误差结果
             //打印误差结果
+            //Print_error(err);
             if(DEBUG_PRINT_ERROR && error_results_.size() % 10 == 0){
             error_calculator_.Print_error();
         }
@@ -162,7 +163,7 @@ void WrapperCar::update() {
         // rm::message("antitop armor", 4);
     }
 
-    // antitop->push(pose, t);
+    antitop->push(pose, t);
 }
 
 
@@ -298,4 +299,22 @@ void WrapperCar::getState(std::vector<std::string>& lines) {
         else antitop_4_->getStateStr(lines);
     } else antitop_4_->getStateStr(lines);
     track_queue_.getStateStr(lines);
+}
+
+//打印误差信息
+void WrapperCar::Print_error(error_result err){
+    std::cout<<"==== Error Result ===="<<std::endl;
+    std::cout<<"pos_error: "<<err.pos_error<<std::endl;
+    std::cout<<"angle_error: "<<err.angle_error<<std::endl;
+    std::cout<<"combine_error: "<<err.combin_error<<std::endl;
+    std::cout<<"delay_time: "<<err.delay_time <<std::endl;
+    std::cout<<"last_predict_pose[x,y,z,angle]: ["<<err.last_predic_pose(0)<<","
+                                                <<err.last_predic_pose(1)<<","
+                                                <<err.last_predic_pose(2)<<","
+                                                <<err.last_predic_pose(3) <<"]"<<std::endl;
+    std::cout<<"now_pose[x,y,z,angle]: ["<<err.now_pose(0)<<","
+                                                <<err.now_pose(1)<<","
+                                                <<err.now_pose(2)<<","
+                                                <<err.now_pose(3) <<"]"<<std::endl;
+    return;
 }

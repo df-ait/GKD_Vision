@@ -19,6 +19,7 @@ public:
     //--- 新增debug函数 ---
     ErrorCalculator::error_states getErrorStates() { return error_calculator_.error_states_; }; //获取误差统计结果
     void printErrorStates() { error_calculator_.Print_error_states(); }; //打印误差统计结果
+    void Print_error(ErrorCalculator::error_result err);
 
 public:
     rm::TrackQueueV4 track_queue_;

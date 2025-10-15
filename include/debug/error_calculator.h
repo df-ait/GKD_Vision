@@ -48,6 +48,7 @@ public:
     error_states getErrorStats(const std::vector<error_result>& error);//传入一组result结果，然后计算error_states
 
     //打印误差信息
+    void Print_error(error_result err);
     void Print_error();
     void Print_error_states();
 private:

@@ -146,3 +146,21 @@ ErrorCalculator::error_result ErrorCalculator::calculerror4D(const Eigen::Matrix
     error_result_.is_error_valid = true;//4D误差只要位置和角度误差有效即可
     return error_result_;
 }
+
+//打印误差信息
+void ErrorCalculator::Print_error(error_result err){
+    std::cout<<"==== Error Result ===="<<std::endl;
+    std::cout<<"pos_error: "<<err.pos_error<<std::endl;
+    std::cout<<"angle_error: "<<err.angle_error<<std::endl;
+    std::cout<<"combine_error: "<<err.combin_error<<std::endl;
+    std::cout<<"delay_time: "<<err.delay_time <<std::endl;
+    std::cout<<"last_predict_pose[x,y,z,angle]: ["<<err.last_predic_pose(0)<<","
+                                                <<err.last_predic_pose(1)<<","
+                                                <<err.last_predic_pose(2)<<","
+                                                <<err.last_predic_pose(3) <<"]"<<std::endl;
+    std::cout<<"now_pose[x,y,z,angle]: ["<<err.now_pose(0)<<","
+                                                <<err.now_pose(1)<<","
+                                                <<err.now_pose(2)<<","
+                                                <<err.now_pose(3) <<"]"<<std::endl;
+    return;
+}
