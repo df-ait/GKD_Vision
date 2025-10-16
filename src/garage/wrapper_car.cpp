@@ -104,8 +104,9 @@ void WrapperCar::push(const Target& target, TimePoint t) {
             //打印误差结果
             //Print_error(err);
             if(DEBUG_PRINT_ERROR && error_results_.size() % 10 == 0){
-            error_calculator_.Print_error();
-        }
+                //error_calculator_.Print_error();
+                Print_error(err);
+            }
         }
     };
 
@@ -302,7 +303,7 @@ void WrapperCar::getState(std::vector<std::string>& lines) {
 }
 
 //打印误差信息
-void WrapperCar::Print_error(error_result err){
+void WrapperCar::Print_error(ErrorCalculator::error_result err){
     std::cout<<"==== Error Result ===="<<std::endl;
     std::cout<<"pos_error: "<<err.pos_error<<std::endl;
     std::cout<<"angle_error: "<<err.angle_error<<std::endl;
