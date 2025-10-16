@@ -45,10 +45,10 @@ ErrorCalculator::error_states ErrorCalculator::getErrorStats(const std::vector<e
     double std_all_pos = 0,std_all_angle = 0;
     for (auto i:error)
     {
-        if(i.pos_error > error_states_.max_pos_error){
+        if( (i.pos_error > error_states_.max_pos_error) && i.is_error_valid){
             error_states_.max_pos_error = i.pos_error;
         }
-        if(i.pos_error < error_states_.min_pos_error){
+        if( (i.pos_error < error_states_.min_pos_error) && i.is_error_valid){
             error_states_.min_pos_error = i.pos_error;
         }
         std_all_pos += pow(error_states_.avg_pos_error - i.pos_error,2);
@@ -80,22 +80,22 @@ double ErrorCalculator::getDistance(const Eigen::Matrix<double, 4, 1>& this_pose
 }
 
 //打印误差信息
-void ErrorCalculator::Print_error(){
-    std::cout<<"==== Error Result ===="<<std::endl;
-    std::cout<<"pos_error: "<<error_result_.pos_error<<std::endl;
-    std::cout<<"angle_error: "<<error_result_.angle_error<<std::endl;
-    std::cout<<"combine_error: "<<error_result_.combin_error<<std::endl;
-    std::cout<<"delay_time: "<<error_result_.delay_time <<std::endl;
-    std::cout<<"last_predict_pose[x,y,z,angle]: ["<<error_result_.last_predic_pose(0)<<","
-                                                <<error_result_.last_predic_pose(1)<<","
-                                                <<error_result_.last_predic_pose(2)<<","
-                                                <<error_result_.last_predic_pose(3) <<"]"<<std::endl;
-    std::cout<<"now_pose[x,y,z,angle]: ["<<error_result_.now_pose(0)<<","
-                                                <<error_result_.now_pose(1)<<","
-                                                <<error_result_.now_pose(2)<<","
-                                                <<error_result_.now_pose(3) <<"]"<<std::endl;
-    return;
-}
+// void ErrorCalculator::Print_error(){
+//     std::cout<<"==== Error Result ===="<<std::endl;
+//     std::cout<<"pos_error: "<<error_result_.pos_error<<std::endl;
+//     std::cout<<"angle_error: "<<error_result_.angle_error<<std::endl;
+//     std::cout<<"combine_error: "<<error_result_.combin_error<<std::endl;
+//     std::cout<<"delay_time: "<<error_result_.delay_time <<std::endl;
+//     std::cout<<"last_predict_pose[x,y,z,angle]: ["<<error_result_.last_predic_pose(0)<<","
+//                                                 <<error_result_.last_predic_pose(1)<<","
+//                                                 <<error_result_.last_predic_pose(2)<<","
+//                                                 <<error_result_.last_predic_pose(3) <<"]"<<std::endl;
+//     std::cout<<"now_pose[x,y,z,angle]: ["<<error_result_.now_pose(0)<<","
+//                                                 <<error_result_.now_pose(1)<<","
+//                                                 <<error_result_.now_pose(2)<<","
+//                                                 <<error_result_.now_pose(3) <<"]"<<std::endl;
+//     return;
+// }
 
 void ErrorCalculator::Print_error_states(){
     std::cout<<"==== Error States ===="<<std::endl;
@@ -131,20 +131,21 @@ ErrorCalculator::error_result ErrorCalculator::calculerror3D(const Eigen::Matrix
 */
 
 ErrorCalculator::error_result ErrorCalculator::calculerror4D(const Eigen::Matrix<double, 4, 1> prediction , const Eigen::Matrix<double , 4, 1 > view,TimePoint predict_time,TimePoint view_time){
-    error_result_ = error_result(); //重置误差结果
-    error_result_.now_pose = view;
-    error_result_.last_predic_pose = prediction;
-    error_result_.pos_error = getDistance(prediction,view);
-    error_result_.angle_error = getSafeAngle(prediction(3),view(3));
-    double time_diff = getDoubleOfS(view_time,predict_time);//计算预测和观测时间差
+    error_result error_result_n;
+    //error_result_ = error_result(); //重置误差结果
+    error_result_n.now_pose = view;
+    error_result_n.last_predic_pose = prediction;
+    error_result_n.pos_error = getDistance(prediction,view);
+    error_result_n.angle_error = getSafeAngle(prediction(3),view(3));
+    double time_diff = abs(getDoubleOfS(view_time,predict_time));//计算预测和观测时间差
     //时间差过大，误差无效
     if(time_diff > 0.5){ 
-        error_result_.is_error_valid = false;
-        return error_result_;
+        error_result_n.is_error_valid = false;
+        return error_result_n;
     } 
-    error_result_.delay_time = time_diff;
-    error_result_.is_error_valid = true;//4D误差只要位置和角度误差有效即可
-    return error_result_;
+    error_result_n.delay_time = time_diff;
+    error_result_n.is_error_valid = true;//4D误差只要位置和角度误差有效即可
+    return error_result_n;
 }
 
 //打印误差信息
@@ -152,7 +153,6 @@ void ErrorCalculator::Print_error(error_result err){
     std::cout<<"==== Error Result ===="<<std::endl;
     std::cout<<"pos_error: "<<err.pos_error<<std::endl;
     std::cout<<"angle_error: "<<err.angle_error<<std::endl;
-    std::cout<<"combine_error: "<<err.combin_error<<std::endl;
     std::cout<<"delay_time: "<<err.delay_time <<std::endl;
     std::cout<<"last_predict_pose[x,y,z,angle]: ["<<err.last_predic_pose(0)<<","
                                                 <<err.last_predic_pose(1)<<","

@@ -98,13 +98,17 @@ void WrapperCar::push(const Target& target, TimePoint t) {
     //--------------- debug新增 ---------------------
     for(const auto& pred : history_predictions_){
         //存在坐标系不同问题？
-        auto err = error_calculator_.calculerror4D(pred.pose,pose,t,pred.predict_time);//计算误差
+        auto err = error_calculator_.calculerror4D(pred.pose , pose , t ,pred.predict_time );//计算误差
         if(err.is_error_valid){
             error_results_.push_back(err);//存储误差结果
             //打印误差结果
-            //Print_error(err);
-            if(DEBUG_PRINT_ERROR && error_results_.size() % 10 == 0){
+            //Print_error(err);&& error_results_.size() % 10 == 0
+            if(DEBUG_PRINT_ERROR ){
                 //error_calculator_.Print_error();
+                std::cout << "[DEBUG] Attempting to print error result. Index:" 
+                << error_results_.size()<< ", is_valid: " << std::boolalpha 
+                << err.is_error_valid << std::endl; // 先打印索引和有效性
+
                 Print_error(err);
             }
         }
@@ -164,7 +168,7 @@ void WrapperCar::update() {
         // rm::message("antitop armor", 4);
     }
 
-    antitop->push(pose, t);
+    //antitop->push(pose, t);
 }
 
 
@@ -216,7 +220,7 @@ bool WrapperCar::getTarget(Eigen::Vector4d& pose_rotate, const double fly_delay,
     TimePoint now = getTime();
     history_predictions_.push_back({now,pose_rotate,fly_delay + rotate_delay});
     // 仅保留最近100个观测结果
-    if(history_predictions_.size() > 100) {
+    while(history_predictions_.size() > 100) {
         history_predictions_.erase(history_predictions_.begin());
     }
     //------------------------------------------------
@@ -307,7 +311,6 @@ void WrapperCar::Print_error(ErrorCalculator::error_result err){
     std::cout<<"==== Error Result ===="<<std::endl;
     std::cout<<"pos_error: "<<err.pos_error<<std::endl;
     std::cout<<"angle_error: "<<err.angle_error<<std::endl;
-    std::cout<<"combine_error: "<<err.combin_error<<std::endl;
     std::cout<<"delay_time: "<<err.delay_time <<std::endl;
     std::cout<<"last_predict_pose[x,y,z,angle]: ["<<err.last_predic_pose(0)<<","
                                                 <<err.last_predic_pose(1)<<","
