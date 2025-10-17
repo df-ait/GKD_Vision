@@ -42,7 +42,8 @@ echo -e "${yellow}环境已准备：$SYS_DIR${reset}"
 # 2. 构建
 # ==============================================================
 echo -e "${yellow}<--- Start CMake (${TARGET}) --->${reset}"
-rm -rf build && mkdir build && cd build
+#rm -rf build && mkdir build && 
+cd build
 cmake -DARMY=${TARGET} ..
 make -j$(nproc)
 cd ..
